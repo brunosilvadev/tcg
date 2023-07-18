@@ -1,7 +1,7 @@
 # Trading Card Game
 
 - Will require user login
-- Cards will have rarity
+- Cards will have different levels of rarity
 - Each booster pack will contain a number of commons and one rare card
 - Users will be able to see their collection (including repeated cards)
 
@@ -16,6 +16,7 @@
 - Account creation and login
 - Collection display
 - Booster pack award
+- Trade listing, offering and accepting
 
 ## General Architecture
 
