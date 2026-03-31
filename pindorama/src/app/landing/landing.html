@@ -1,0 +1,117 @@
+<div class="landing">
+
+  <!-- Ambient particles -->
+  <div class="particles">
+    <span
+      *ngFor="let p of particles"
+      class="particle"
+      [style.left.%]="p.x"
+      [style.top.%]="p.y"
+      [style.animation-delay]="p.delay"
+      [style.animation-duration]="p.duration"
+    ></span>
+  </div>
+
+  <!-- Top nav -->
+  <nav class="nav">
+    <div class="nav__logo">
+      <span class="nav__logo-glyph">⬡</span>
+      PINDORAMA
+    </div>
+    <div class="nav__links">
+      <a href="#about">About</a>
+      <a href="#notify">Notify Me</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__frame hero__frame--tl"></div>
+    <div class="hero__frame hero__frame--tr"></div>
+    <div class="hero__frame hero__frame--bl"></div>
+    <div class="hero__frame hero__frame--br"></div>
+
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Land of the Palm Trees</p>
+      <h1 class="hero__title">PINDORAMA</h1>
+      <p class="hero__subtitle">A trading card game of gods, spirits, and ancient rites</p>
+      <div class="hero__divider">
+        <span class="hero__divider-line"></span>
+        <span class="hero__divider-glyph">✦</span>
+        <span class="hero__divider-line"></span>
+      </div>
+      <p class="hero__coming-soon">COMING SOON</p>
+      <p class="hero__description">
+        Collect cards from the mythologies of the first peoples of South America.<br />
+        Open sacred booster packs. Build your legacy.
+      </p>
+    </div>
+
+    <!-- Decorative card previews -->
+    <div class="cards-preview">
+      <div class="card-ghost card-ghost--left">
+        <div class="card-ghost__inner"></div>
+      </div>
+      <div class="card-ghost card-ghost--center">
+        <div class="card-ghost__inner">
+          <div class="card-ghost__emblem">✦</div>
+          <div class="card-ghost__rarity">RARE</div>
+        </div>
+      </div>
+      <div class="card-ghost card-ghost--right">
+        <div class="card-ghost__inner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features strip -->
+  <section class="features" id="about">
+    <div class="features__item">
+      <div class="features__icon">◈</div>
+      <h3>Discover</h3>
+      <p>Over 120 cards across deities, spirits, creatures, rituals and artifacts — each with unique AI-crafted art and lore.</p>
+    </div>
+    <div class="features__divider"></div>
+    <div class="features__item">
+      <div class="features__icon">◈</div>
+      <h3>Collect</h3>
+      <p>Open booster packs to grow your collection. Every pull is a ceremony. Every rare card, a revelation.</p>
+    </div>
+    <div class="features__divider"></div>
+    <div class="features__item">
+      <div class="features__icon">◈</div>
+      <h3>Trade</h3>
+      <p>Exchange duplicates with other collectors. Complete the sacred codex before anyone else.</p>
+    </div>
+  </section>
+
+  <!-- Notify CTA -->
+  <section class="notify" id="notify">
+    <div class="notify__box">
+      <div class="notify__corner notify__corner--tl"></div>
+      <div class="notify__corner notify__corner--tr"></div>
+      <div class="notify__corner notify__corner--bl"></div>
+      <div class="notify__corner notify__corner--br"></div>
+      <p class="notify__label">The first collection is being forged</p>
+      <h2 class="notify__title">Be the first to answer the call</h2>
+      <form class="notify__form" (submit)="onNotify($event)">
+        <input
+          class="notify__input"
+          type="email"
+          placeholder="your@email.com"
+          [(ngModel)]="email"
+          name="email"
+        />
+        <button class="notify__btn" type="submit">Notify Me</button>
+      </form>
+      <p class="notify__confirm" *ngIf="notified">✦ You will be among the first to hear the drums.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer__glyph">⬡ ✦ ⬡</span>
+    <p>Pindorama &copy; 2026 — All myths reserved.</p>
+  </footer>
+
+</div>
