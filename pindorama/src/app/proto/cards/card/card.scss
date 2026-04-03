@@ -4,6 +4,10 @@ $parchment: #f5e6c8;
 $text-dim:  #c8b99a;
 $obsidian:  #0e0b08;
 
+// ── Texture data URIs ─────────────────────────────────────
+$texture-frame-crosshatch: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M0 0L8 8M8 0L0 8' stroke='rgba(255,220,120,.1)' stroke-width='.5'/%3E%3C/svg%3E");
+$texture-linen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath d='M0 0L4 4M4 0L0 4' stroke='rgba(120,80,20,.07)' stroke-width='.5'/%3E%3C/svg%3E");
+
 .card {
   container-type: inline-size;
   cursor: pointer;
@@ -31,12 +35,12 @@ $obsidian:  #0e0b08;
     --glow:         rgba(82, 183, 136, 0.65);
   }
   &--rare {
-    --frame-1:      #c4921a;
-    --frame-2:      #7c4a00;
-    --frame-border: rgba(212, 160, 23, 0.6);
-    --type-bg:      #9a6510;
-    --accent:       #d4a017;
-    --glow:         rgba(212, 160, 23, 0.75);
+    --frame-1:      #edb820;
+    --frame-2:      #5c2e00;
+    --frame-border: rgba(225, 175, 30, 0.65);
+    --type-bg:      #8a5510;
+    --accent:       #f0c840;
+    --glow:         rgba(240, 200, 64, 0.8);
   }
 
   // ── Flip container ────────────────────────────────────────
@@ -74,8 +78,22 @@ $obsidian:  #0e0b08;
     display: flex;
     flex-direction: column;
     gap: 2%;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 245, 200, 0.25),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.28);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  // Rare frame: richer gradient + subtle crosshatch texture in the gold area
+  &--rare &__frame {
+    background:
+      $texture-frame-crosshatch repeat,
+      linear-gradient(170deg, var(--frame-1) 0%, #c98010 55%, var(--frame-2) 100%);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 245, 200, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.35);
   }
 
   // Only apply hover lift when not in flip mode (grid context)
@@ -114,6 +132,11 @@ $obsidian:  #0e0b08;
     border-radius: 2px;
     overflow: hidden;
     background: $obsidian;
+    box-shadow:
+      inset 0 4px 10px rgba(0, 0, 0, 0.75),
+      inset 2px 0 5px rgba(0, 0, 0, 0.35),
+      inset -2px 0 5px rgba(0, 0, 0, 0.35),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4);
   }
 
   &__art-img {
@@ -145,7 +168,9 @@ $obsidian:  #0e0b08;
   // ── Text box ──────────────────────────────────────────────
   &__text-box {
     flex: 1;
-    background: rgba(8, 6, 4, 0.88);
+    background:
+      $texture-linen repeat,
+      radial-gradient(ellipse at 50% 30%, rgba(28, 18, 8, 0.84) 0%, rgba(6, 4, 2, 0.96) 100%);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 2px;
     padding: 3% 4%;
