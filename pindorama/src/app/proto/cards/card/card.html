@@ -1,25 +1,46 @@
-<div class="card card--{{ card.rarity }}" (click)="clicked.emit(card)">
-  <div class="card__frame">
+<div
+  class="card card--{{ card.rarity }}"
+  [class.card--flip-enabled]="flipEnabled"
+  (click)="onCardClick()"
+>
+  <div class="card__flip-container" [class.card__flip-container--flipped]="isFlipped">
 
-    <div class="card__header">
-      <span class="card__name">{{ card.name }}</span>
+    <!-- ── Front face ─────────────────────────────────── -->
+    <div class="card__face card__face--front">
+      <div class="card__frame">
+
+        <div class="card__header">
+          <span class="card__name">{{ card.name }}</span>
+        </div>
+
+        <div class="card__art-frame">
+          <img class="card__art-img" [src]="card.imageUrl" [alt]="card.name" loading="lazy" />
+        </div>
+
+        <div class="card__type-bar">
+          <span class="card__type">{{ card.type }}</span>
+        </div>
+
+        <div class="card__text-box">
+          <p class="card__flavor">{{ card.flavorText }}</p>
+        </div>
+
+        <div class="card__footer">
+          <span class="card__number">{{ card.cardNumber }}/{{ card.collectionSize }}</span>
+          <span class="card__rarity-badge">{{ rarityInitial }}</span>
+        </div>
+
+      </div>
     </div>
 
-    <div class="card__art-frame">
-      <img class="card__art-img" [src]="card.imageUrl" [alt]="card.name" loading="lazy" />
-    </div>
-
-    <div class="card__type-bar">
-      <span class="card__type">{{ card.type }}</span>
-    </div>
-
-    <div class="card__text-box">
-      <p class="card__flavor">{{ card.flavorText }}</p>
-    </div>
-
-    <div class="card__footer">
-      <span class="card__number">{{ card.cardNumber }}/{{ card.collectionSize }}</span>
-      <span class="card__rarity-badge">{{ rarityInitial }}</span>
+    <!-- ── Back face ──────────────────────────────────── -->
+    <div class="card__face card__face--back">
+      <div class="card__back-frame">
+        <div class="card__back-inner">
+          <div class="card__back-emblem">⬡</div>
+          <p class="card__back-collection">{{ card.collection }}</p>
+        </div>
+      </div>
     </div>
 
   </div>

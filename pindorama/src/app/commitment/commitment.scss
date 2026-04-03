@@ -1,0 +1,115 @@
+@use 'sass:color';
+
+$obsidian:   #0e0b08;
+$bark:       #1c1208;
+$gold:       #d4a017;
+$pale-gold:  #f0d080;
+$parchment:  #f5e6c8;
+$ash:        #7a6a55;
+$jade-light: #52b788;
+$ember:      #c4621a;
+
+.commitment-page {
+  min-height: 100vh;
+  background: $obsidian;
+  display: flex;
+  justify-content: center;
+  padding: 4rem 1.5rem 5rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+
+  &__content {
+    width: 100%;
+    max-width: 660px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // ── Back link ───────────────────────────────────────────
+  &__back {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    color: $ash;
+    font-size: 0.82rem;
+    font-family: inherit;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 3rem;
+    transition: color 0.2s;
+
+    &:hover { color: $parchment; }
+  }
+
+  &__back-arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  // ── Top divider ─────────────────────────────────────────
+  &__divider-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  &__divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba($gold, 0.35));
+
+    &:last-child {
+      background: linear-gradient(to left, transparent, rgba($gold, 0.35));
+    }
+  }
+
+  &__divider-glyph {
+    color: $gold;
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+
+  // ── Heading ─────────────────────────────────────────────
+  &__heading {
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    color: $pale-gold;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+  }
+
+  // ── Body paragraphs ─────────────────────────────────────
+  &__body {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    color: rgba($parchment, 0.85);
+    line-height: 1.9;
+    margin-bottom: 1.75rem;
+
+    &:last-of-type {
+      margin-bottom: 3rem;
+    }
+  }
+
+  // ── CTA link ────────────────────────────────────────────
+  &__cta {
+    align-self: flex-start;
+    display: inline-block;
+    color: $jade-light;
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba($jade-light, 0.4);
+    transition: border-color 0.2s, color 0.2s;
+
+    &:hover {
+      color: color.adjust($jade-light, $lightness: 10%);
+      border-color: $jade-light;
+    }
+  }
+}

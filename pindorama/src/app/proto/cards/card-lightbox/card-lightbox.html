@@ -7,10 +7,25 @@
 >
   <div
     *ngIf="card"
-    class="lightbox__card-wrap"
-    [style.--glow]="glowColor"
+    class="lightbox__drag-wrap"
+    [class.lightbox__drag-wrap--dragging]="isDragging"
+    [class.lightbox__drag-wrap--returning]="isReturning"
+    [style.transform]="dragTransform"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp()"
     (click)="$event.stopPropagation()"
   >
-    <app-card [card]="card"></app-card>
+    <!--
+      Float and glow live on a separate inner element so that
+      translate (drag) and translateY (float) never conflict.
+    -->
+    <div
+      class="lightbox__float-inner"
+      [class.lightbox__float-inner--paused]="isDragging || isReturning"
+      [style.--glow]="glowColor"
+    >
+      <app-card [card]="card" [flipEnabled]="true"></app-card>
+    </div>
   </div>
 </div>

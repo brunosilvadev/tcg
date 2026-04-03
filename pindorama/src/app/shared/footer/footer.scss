@@ -1,0 +1,49 @@
+$obsidian: #0e0b08;
+$gold:     #d4a017;
+$ash:      #7a6a55;
+$parchment: #f5e6c8;
+$jade-light: #52b788;
+
+.site-footer {
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: $obsidian;
+  border-top: 1px solid rgba($gold, 0.1);
+  font-family: 'Georgia', serif;
+
+  &__glyph {
+    display: block;
+    color: $gold;
+    opacity: 0.35;
+    font-size: 0.9rem;
+    letter-spacing: 0.5em;
+    margin-bottom: 0.65rem;
+  }
+
+  &__copy {
+    font-size: 0.75rem;
+    color: $ash;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.65rem;
+  }
+
+  &__commitment {
+    font-size: 0.72rem;
+    color: rgba($ash, 0.75);
+    font-style: italic;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  &__link {
+    color: $jade-light;
+    text-decoration: none;
+    margin-left: 0.35rem;
+    white-space: nowrap;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+
+    &:hover { opacity: 1; text-decoration: underline; }
+  }
+}

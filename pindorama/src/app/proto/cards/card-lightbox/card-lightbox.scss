@@ -9,7 +9,7 @@
   backdrop-filter: blur(0px);
   pointer-events: none;
   transition:
-    background   0.25s ease,
+    background      0.25s ease,
     backdrop-filter 0.25s ease;
 
   &--open {
@@ -17,31 +17,56 @@
     backdrop-filter: blur(8px);
     pointer-events: auto;
   }
+}
 
-  // ── Card wrapper ─────────────────────────────────────────
-  &__card-wrap {
-    width: min(82vw, 340px);
-    position: relative;
-    // Entry: scale up from small with a spring overshoot
-    animation: lightbox-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
-               float          3.5s ease-in-out 0.35s infinite;
+// ── Drag wrapper ─────────────────────────────────────────────
+// Handles translation during drag and the spring-return transition.
+// Float lives on a separate child so the two transforms don't fight.
 
-    // Glow halo behind card
-    &::before {
-      content: '';
-      position: absolute;
-      inset: -24px;
-      border-radius: 20px;
-      background: radial-gradient(ellipse at center, var(--glow, transparent), transparent 70%);
-      z-index: -1;
-      animation: glow-pulse 3.5s ease-in-out 0.35s infinite;
-    }
+.lightbox__drag-wrap {
+  width: min(85vw, 595px);   // ~75% larger than the original 340px
+  position: relative;
+  cursor: grab;
+  touch-action: none;        // prevent scroll interference on touch
 
-    // Suppress the grid hover effect when inside lightbox
-    app-card .card:hover .card__frame {
-      transform: none;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-    }
+  &--dragging {
+    cursor: grabbing;
+    // No transition — follows pointer directly
+  }
+
+  &--returning {
+    cursor: grab;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+// ── Float + glow inner ───────────────────────────────────────
+// Handles the entry animation, continuous float, and glow halo.
+// Paused while dragging or returning so the float doesn't jitter.
+
+.lightbox__float-inner {
+  position: relative;
+  animation:
+    lightbox-enter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    float          3.5s ease-in-out 0.35s infinite;
+
+  &--paused {
+    animation-play-state: paused;
+  }
+
+  // Glow halo behind the card
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -30px;
+    border-radius: 24px;
+    background: radial-gradient(ellipse at center, var(--glow, transparent) 0%, transparent 68%);
+    z-index: -1;
+    animation: glow-pulse 3.5s ease-in-out 0.35s infinite;
+  }
+
+  &--paused::before {
+    animation-play-state: paused;
   }
 }
 
@@ -49,15 +74,15 @@
 
 @keyframes lightbox-enter {
   from { opacity: 0; transform: scale(0.75) translateY(20px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-14px); }
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-16px); }
 }
 
 @keyframes glow-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.05); }
+  0%, 100% { opacity: 0.5; transform: scale(1);    }
+  50%       { opacity: 1;   transform: scale(1.06); }
 }

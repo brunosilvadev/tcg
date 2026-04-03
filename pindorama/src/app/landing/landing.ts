@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WaitlistService } from '../waitlist';
 import { ArakuPytxaComponent } from '../araku-pytxa.component';
+import { FooterComponent } from '../shared/footer/footer';
 
 interface Particle {
   x: number;
@@ -13,7 +14,7 @@ interface Particle {
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, FormsModule, ArakuPytxaComponent],
+  imports: [CommonModule, FormsModule, ArakuPytxaComponent, FooterComponent],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
 })
