@@ -15,7 +15,7 @@
   <!-- Top nav -->
   <nav class="nav">
     <div class="nav__logo">
-      <span class="nav__logo-glyph">⬡</span>
+      <app-araku-pytxa class="nav__logo-glyph" [size]="24"></app-araku-pytxa>
       PINDORAMA
     </div>
     <div class="nav__links">
@@ -67,19 +67,19 @@
   <!-- Features strip -->
   <section class="features" id="about">
     <div class="features__item">
-      <div class="features__icon">◈</div>
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
       <h3>Discover</h3>
-      <p>Over 120 cards across deities, spirits, creatures, rituals and artifacts — each with unique AI-crafted art and lore.</p>
+      <p>Cards include deities, spirits, creatures, rituals and artifacts — each with unique art and lore.</p>
     </div>
     <div class="features__divider"></div>
     <div class="features__item">
-      <div class="features__icon">◈</div>
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
       <h3>Collect</h3>
       <p>Open booster packs to grow your collection. Every pull is a ceremony. Every rare card, a revelation.</p>
     </div>
     <div class="features__divider"></div>
     <div class="features__item">
-      <div class="features__icon">◈</div>
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
       <h3>Trade</h3>
       <p>Exchange duplicates with other collectors. Complete the sacred codex before anyone else.</p>
     </div>
@@ -87,24 +87,39 @@
 
   <!-- Notify CTA -->
   <section class="notify" id="notify">
-    <div class="notify__box">
+    <div class="notify__box" [class.notify__box--success]="notified">
       <div class="notify__corner notify__corner--tl"></div>
       <div class="notify__corner notify__corner--tr"></div>
       <div class="notify__corner notify__corner--bl"></div>
       <div class="notify__corner notify__corner--br"></div>
-      <p class="notify__label">The first collection is being forged</p>
-      <h2 class="notify__title">Be the first to answer the call</h2>
-      <form class="notify__form" (submit)="onNotify($event)">
-        <input
-          class="notify__input"
-          type="email"
-          placeholder="your@email.com"
-          [(ngModel)]="email"
-          name="email"
-        />
-        <button class="notify__btn" type="submit">Notify Me</button>
-      </form>
-      <p class="notify__confirm" *ngIf="notified">✦ You will be among the first to hear the drums.</p>
+
+      <!-- Default state -->
+      <ng-container *ngIf="!notified">
+        <p class="notify__label">The first collection is being forged</p>
+        <h2 class="notify__title">Be the first to answer the call</h2>
+        <form class="notify__form" (submit)="onNotify($event)">
+          <input
+            class="notify__input"
+            type="email"
+            placeholder="your@email.com"
+            [(ngModel)]="email"
+            name="email"
+            [disabled]="submitting"
+          />
+          <button class="notify__btn" type="submit" [disabled]="submitting">
+            <span *ngIf="!submitting">Notify Me</span>
+            <span *ngIf="submitting" class="notify__spinner"></span>
+          </button>
+        </form>
+        <p class="notify__error" *ngIf="error">⚠ {{ error }}</p>
+      </ng-container>
+
+      <!-- Success state -->
+      <div class="notify__success" *ngIf="notified">
+        <div class="notify__success-glyph">✦</div>
+        <h2 class="notify__success-title">The spirits have heard you.</h2>
+        <p class="notify__success-body">You will be among the first to receive word when Pindorama opens its gates.</p>
+      </div>
     </div>
   </section>
 

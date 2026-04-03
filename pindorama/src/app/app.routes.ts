@@ -3,5 +3,7 @@ import { LandingComponent } from './landing/landing';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
+  // To promote proto to root: change 'proto' to '' and remove the LandingComponent route above
+  { path: 'proto', loadChildren: () => import('./proto/proto.routes').then(m => m.PROTO_ROUTES) },
   { path: '**', redirectTo: '' }
 ];

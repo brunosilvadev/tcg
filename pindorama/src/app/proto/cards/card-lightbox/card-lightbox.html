@@ -1,0 +1,16 @@
+<div
+  class="lightbox"
+  [class.lightbox--open]="card !== null"
+  (click)="onBackdropClick($event)"
+  role="dialog"
+  aria-modal="true"
+>
+  <div
+    *ngIf="card"
+    class="lightbox__card-wrap"
+    [style.--glow]="glowColor"
+    (click)="$event.stopPropagation()"
+  >
+    <app-card [card]="card"></app-card>
+  </div>
+</div>

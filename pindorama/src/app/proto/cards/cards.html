@@ -1,0 +1,29 @@
+<div class="cards-page">
+
+  <header class="cards-page__header">
+    <h1 class="cards-page__title">Card Collection</h1>
+    <p class="cards-page__meta">TUP-1: The First Peoples &middot; {{ cards.length }} cards</p>
+  </header>
+
+  <div class="cards-grid" *ngIf="cards.length > 0; else empty">
+    <app-card
+      *ngFor="let card of cards; trackBy: trackById"
+      [card]="card"
+      (clicked)="openLightbox($event)"
+    ></app-card>
+  </div>
+
+  <ng-template #empty>
+    <div class="cards-empty">
+      <span class="cards-empty__glyph">✦</span>
+      <p class="cards-empty__title">Your collection is empty</p>
+      <p class="cards-empty__sub">Open a booster pack to begin your journey.</p>
+    </div>
+  </ng-template>
+
+</div>
+
+<app-card-lightbox
+  [card]="selectedCard"
+  (close)="closeLightbox()"
+></app-card-lightbox>

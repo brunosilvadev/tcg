@@ -1,0 +1,154 @@
+.card {
+  container-type: inline-size;
+  cursor: pointer;
+  width: 100%;
+  aspect-ratio: 63 / 88;
+  font-family: 'Georgia', serif;
+
+  // ── Rarity themes via CSS custom properties ──────────────
+  &--common {
+    --frame-1:      #717b88;
+    --frame-2:      #424d5c;
+    --frame-border: rgba(200, 210, 220, 0.4);
+    --type-bg:      #525e6d;
+    --accent:       #9ca3af;
+    --glow:         rgba(156, 163, 175, 0.65);
+  }
+  &--uncommon {
+    --frame-1:      #2d6a4f;
+    --frame-2:      #163d2c;
+    --frame-border: rgba(82, 183, 136, 0.45);
+    --type-bg:      #1f5038;
+    --accent:       #52b788;
+    --glow:         rgba(82, 183, 136, 0.65);
+  }
+  &--rare {
+    --frame-1:      #c4921a;
+    --frame-2:      #7c4a00;
+    --frame-border: rgba(212, 160, 23, 0.6);
+    --type-bg:      #9a6510;
+    --accent:       #d4a017;
+    --glow:         rgba(212, 160, 23, 0.75);
+  }
+
+  // ── Frame ────────────────────────────────────────────────
+  &__frame {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(170deg, var(--frame-1), var(--frame-2));
+    border: 2px solid var(--frame-border);
+    padding: 4%;
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  &:hover &__frame {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, 0.7),
+      0 0 18px var(--glow);
+  }
+
+  // ── Header ───────────────────────────────────────────────
+  &__header {
+    flex: 0 0 auto;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    padding: 1.5% 3%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__name {
+    font-size: 4.5cqi;
+    color: #f5e6c8;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // ── Art ──────────────────────────────────────────────────
+  &__art-frame {
+    flex: 0 0 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    background: #0e0b08;
+  }
+
+  &__art-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  // ── Type bar ─────────────────────────────────────────────
+  &__type-bar {
+    flex: 0 0 auto;
+    background: var(--type-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 2px;
+    padding: 1.5% 3%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__type {
+    font-size: 3.5cqi;
+    color: #f5e6c8;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  // ── Text box ─────────────────────────────────────────────
+  &__text-box {
+    flex: 1;
+    background: rgba(8, 6, 4, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    padding: 3% 4%;
+    overflow: hidden;
+  }
+
+  &__flavor {
+    font-size: 3.2cqi;
+    color: #c8b99a;
+    font-style: italic;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // ── Footer ───────────────────────────────────────────────
+  &__footer {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1%;
+  }
+
+  &__number {
+    font-size: 2.8cqi;
+    color: rgba(245, 230, 200, 0.45);
+    letter-spacing: 0.05em;
+  }
+
+  &__rarity-badge {
+    font-size: 2.8cqi;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+}

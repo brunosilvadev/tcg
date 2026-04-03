@@ -1,0 +1,26 @@
+<div class="card card--{{ card.rarity }}" (click)="clicked.emit(card)">
+  <div class="card__frame">
+
+    <div class="card__header">
+      <span class="card__name">{{ card.name }}</span>
+    </div>
+
+    <div class="card__art-frame">
+      <img class="card__art-img" [src]="card.imageUrl" [alt]="card.name" loading="lazy" />
+    </div>
+
+    <div class="card__type-bar">
+      <span class="card__type">{{ card.type }}</span>
+    </div>
+
+    <div class="card__text-box">
+      <p class="card__flavor">{{ card.flavorText }}</p>
+    </div>
+
+    <div class="card__footer">
+      <span class="card__number">{{ card.cardNumber }}/{{ card.collectionSize }}</span>
+      <span class="card__rarity-badge">{{ rarityInitial }}</span>
+    </div>
+
+  </div>
+</div>

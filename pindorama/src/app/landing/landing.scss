@@ -80,7 +80,7 @@ $ash:        #7a6a55;
   align-items: center;
   justify-content: space-between;
   padding: 1.2rem 3rem;
-  background: linear-gradient(to bottom, rgba($obsidian, 0.95), transparent);
+  background: $obsidian;
   border-bottom: 1px solid rgba($gold, 0.15);
 
   &__logo {
@@ -179,7 +179,7 @@ $ash:        #7a6a55;
   &__inner {
     position: relative;
     z-index: 1;
-    max-width: 700px;
+    max-width: 900px;
   }
 
   &__eyebrow {
@@ -449,6 +449,10 @@ $ash:        #7a6a55;
   }
 
   &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
     padding: 0.85rem 1.5rem;
     background: $ember;
     border: none;
@@ -460,16 +464,66 @@ $ash:        #7a6a55;
     cursor: pointer;
     transition: background 0.2s;
 
-    &:hover { background: color.adjust($ember, $lightness: 8%); }
+    &:hover:not(:disabled) { background: color.adjust($ember, $lightness: 8%); }
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
   }
 
-  &__confirm {
-    font-size: 0.85rem;
-    color: $jade-light;
-    font-style: italic;
-    margin-top: 0.5rem;
-    animation: fade-in 0.5s ease;
+  &__spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba($parchment, 0.3);
+    border-top-color: $parchment;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
   }
+
+  &__error {
+    font-size: 0.85rem;
+    color: $ember;
+    margin-top: 0.75rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba($ember, 0.35);
+    border-radius: 3px;
+    background: rgba($ember, 0.08);
+    animation: fade-in 0.3s ease;
+  }
+
+  &__box--success {
+    border-color: rgba($jade-light, 0.4);
+    background: rgba($jade, 0.15);
+    transition: background 0.6s ease, border-color 0.6s ease;
+  }
+
+  &__success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    animation: fade-in 0.6s ease;
+  }
+
+  &__success-glyph {
+    font-size: 2.5rem;
+    color: $jade-light;
+    animation: pulse-glyph 3s ease-in-out infinite;
+  }
+
+  &__success-title {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    color: $pale-gold;
+    line-height: 1.3;
+  }
+
+  &__success-body {
+    font-size: 0.9rem;
+    color: $ash;
+    line-height: 1.8;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 @keyframes fade-in {
