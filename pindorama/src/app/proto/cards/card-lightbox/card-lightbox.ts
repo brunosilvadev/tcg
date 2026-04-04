@@ -9,7 +9,6 @@ const GLOW_COLORS: Record<string, string> = {
   rare:     'rgba(212, 160,  23, 0.80)',
 };
 
-// Threshold (px) to count a pointer move as a drag
 const DRAG_THRESHOLD = 5;
 
 @Component({
@@ -36,6 +35,12 @@ export class CardLightboxComponent {
   private dragEndedAt = 0;
   private returnTimer: ReturnType<typeof setTimeout> | null = null;
 
+  // ── Tilt state ────────────────────────────────────────────
+  tiltX = 0;   // rotateX degrees
+  tiltY = 0;   // rotateY degrees
+  shineX = 50; // specular highlight position (%)
+  shineY = 50;
+
   // ── Keyboard ──────────────────────────────────────────────
   @HostListener('document:keydown.escape')
   onEscape(): void {
@@ -44,7 +49,6 @@ export class CardLightboxComponent {
 
   // ── Backdrop click ────────────────────────────────────────
   onBackdropClick(event: MouseEvent): void {
-    // Ignore if a drag just ended — pointerup may have also triggered a click event
     if (Date.now() - this.dragEndedAt < 150) return;
     if ((event.target as Element).classList.contains('lightbox')) {
       this.close.emit();
@@ -57,6 +61,11 @@ export class CardLightboxComponent {
     this.isDragging = true;
     this.isReturning = false;
     this.hasDragged = false;
+    // Flatten tilt while dragging
+    this.tiltX = 0;
+    this.tiltY = 0;
+    this.shineX = 50;
+    this.shineY = 50;
 
     if (this.returnTimer) {
       clearTimeout(this.returnTimer);
@@ -95,7 +104,6 @@ export class CardLightboxComponent {
       this.isReturning = true;
       this.dragX = 0;
       this.dragY = 0;
-      // Re-enable float after return transition (500ms) completes
       this.returnTimer = setTimeout(() => {
         this.isReturning = false;
         this.returnTimer = null;
@@ -103,10 +111,40 @@ export class CardLightboxComponent {
     }
   }
 
-  // ── Helpers ───────────────────────────────────────────────
+  // ── Tilt: mouse track ─────────────────────────────────────
+  onTiltMouseMove(event: MouseEvent): void {
+    if (this.isDragging) return;
+    const el = event.currentTarget as HTMLElement;
+    const rect = el.getBoundingClientRect();
+    // Normalise cursor to -1..1 within the element
+    const nx = (event.clientX - rect.left)  / rect.width  - 0.5;   // -0.5..0.5
+    const ny = (event.clientY - rect.top)   / rect.height - 0.5;
+
+    this.tiltY =  nx * 34;   // left-right: max ±17°
+    this.tiltX = -ny * 24;   // up-down:    max ±12°
+
+    // Shine moves opposite to tilt (light source stays "behind" viewer)
+    this.shineX = 50 - nx * 80;
+    this.shineY = 50 - ny * 80;
+  }
+
+  onTiltMouseLeave(): void {
+    this.tiltX = 0;
+    this.tiltY = 0;
+    this.shineX = 50;
+    this.shineY = 50;
+  }
+
+  // ── Computed transforms ───────────────────────────────────
   get dragTransform(): string {
     if (this.dragX === 0 && this.dragY === 0) return '';
     return `translate(${this.dragX}px, ${this.dragY}px)`;
+  }
+
+  get tiltTransform(): string {
+    const tilting = this.tiltX !== 0 || this.tiltY !== 0;
+    const scale = tilting ? 1.04 : 1;
+    return `perspective(900px) rotateX(${this.tiltX}deg) rotateY(${this.tiltY}deg) scale(${scale})`;
   }
 
   get glowColor(): string {

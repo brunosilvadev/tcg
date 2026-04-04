@@ -16,16 +16,27 @@
     (pointerup)="onPointerUp()"
     (click)="$event.stopPropagation()"
   >
-    <!--
-      Float and glow live on a separate inner element so that
-      translate (drag) and translateY (float) never conflict.
-    -->
+    <!-- Float + glow layer -->
     <div
       class="lightbox__float-inner"
       [class.lightbox__float-inner--paused]="isDragging || isReturning"
       [style.--glow]="glowColor"
     >
-      <app-card [card]="card" [flipEnabled]="true"></app-card>
+      <!--
+        Tilt layer — separate from float so the two transforms never conflict.
+        Mouse events live here; drag events on the outer wrap capture the pointer.
+      -->
+      <div
+        class="lightbox__tilt-wrap"
+        [class.lightbox__tilt-wrap--tilting]="tiltX !== 0 || tiltY !== 0"
+        [style.transform]="tiltTransform"
+        [style.--shine-x.%]="shineX"
+        [style.--shine-y.%]="shineY"
+        (mousemove)="onTiltMouseMove($event)"
+        (mouseleave)="onTiltMouseLeave()"
+      >
+        <app-card [card]="card" [flipEnabled]="true"></app-card>
+      </div>
     </div>
   </div>
 </div>
