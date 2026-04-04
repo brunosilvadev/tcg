@@ -10,4 +10,5 @@ export interface Card {
   collection: string;
   imageUrl: string;
   flavorText: string;
+  artistName?: string;
 }

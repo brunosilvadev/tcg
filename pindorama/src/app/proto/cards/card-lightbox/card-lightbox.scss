@@ -24,7 +24,7 @@
 // Float lives on a separate child so the two transforms don't fight.
 
 .lightbox__drag-wrap {
-  width: min(85vw, 595px);   // ~75% larger than the original 340px
+  width: min(76vw, 536px);
   position: relative;
   cursor: grab;
   touch-action: none;        // prevent scroll interference on touch

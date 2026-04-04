@@ -9,8 +9,9 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 1,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/2a1500/d4a017',
+    imageUrl: 'https://placehold.co/280x244/2a1500/d4a017',
     flavorText: 'Lord of thunder and the sky, Tupã shaped the earth with lightning and filled the rivers with his tears of rain.',
+    artistName: 'M. Cavalcante',
   },
   {
     id: 2,
@@ -20,8 +21,9 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 2,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/001a0f/52b788',
+    imageUrl: 'https://placehold.co/280x244/001a0f/52b788',
     flavorText: 'From beneath the dark waters she calls. Those who hear her song seldom find their way back to shore.',
+    artistName: 'L. Ferreira',
   },
   {
     id: 3,
@@ -31,7 +33,7 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 3,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/141414/9ca3af',
+    imageUrl: 'https://placehold.co/280x244/141414/9ca3af',
     flavorText: 'Guardian of the hunt, she rides a peccary through the forest night, confounding those who take more than they need.',
   },
   {
@@ -42,8 +44,9 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 4,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/2a0f00/d4a017',
+    imageUrl: 'https://placehold.co/280x244/2a0f00/d4a017',
     flavorText: 'The Sun God watches all beneath him. His gaze is warmth; his anger, drought. The harvest answers to no one else.',
+    artistName: 'M. Cavalcante',
   },
   {
     id: 5,
@@ -53,7 +56,7 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 5,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/000d1a/52b788',
+    imageUrl: 'https://placehold.co/280x244/000d1a/52b788',
     flavorText: 'Goddess of the moon, mother of night. She lights the path of travelers and whispers to the tides.',
   },
   {
@@ -64,8 +67,9 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 6,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/0d1400/9ca3af',
+    imageUrl: 'https://i.pinimg.com/736x/1d/cc/7e/1dcc7ee004fd2569799c03d20408af01.jpg',
     flavorText: 'Its feet point backward to mislead hunters. A child of the forest — fierce, wild, and unforgiving of trespass.',
+    artistName: 'R. Nascimento',
   },
   {
     id: 7,
@@ -75,7 +79,7 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 7,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/1a0a00/52b788',
+    imageUrl: 'https://placehold.co/280x244/1a0a00/52b788',
     flavorText: 'A serpent of living fire, born from the floods of ages past. It hunts those who set the fields to burn.',
   },
   {
@@ -86,7 +90,8 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 8,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x196/1a001a/d4a017',
+    imageUrl: 'https://placehold.co/280x244/1a001a/d4a017',
     flavorText: 'The wandering evil. It takes the shape of a white deer with fire-red eyes to lure the doomed deeper into the jungle.',
+    artistName: 'L. Ferreira',
   },
 ];

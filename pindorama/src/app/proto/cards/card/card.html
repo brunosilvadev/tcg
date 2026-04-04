@@ -25,9 +25,13 @@
           <p class="card__flavor">{{ card.flavorText }}</p>
         </div>
 
+        <div class="card__rarity-diamond">
+          <span class="card__rarity-badge">{{ rarityInitial }}</span>
+        </div>
+
         <div class="card__footer">
           <span class="card__number">{{ card.cardNumber }}/{{ card.collectionSize }}</span>
-          <span class="card__rarity-badge">{{ rarityInitial }}</span>
+          <span class="card__artist" *ngIf="card.artistName">✦ {{ card.artistName }}</span>
         </div>
 
       </div>
