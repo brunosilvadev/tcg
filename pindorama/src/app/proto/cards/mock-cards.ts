@@ -44,7 +44,7 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 4,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x244/2a0f00/d4a017',
+    imageUrl: 'https://static.wikia.nocookie.net/mythology/images/6/65/Guaraci.jpg',
     flavorText: 'The Sun God watches all beneath him. His gaze is warmth; his anger, drought. The harvest answers to no one else.',
     artistName: 'M. Cavalcante',
   },
@@ -79,7 +79,7 @@ export const MOCK_CARDS: Card[] = [
     cardNumber: 7,
     collectionSize: 45,
     collection: 'TUP-1: The First Peoples',
-    imageUrl: 'https://placehold.co/280x244/1a0a00/52b788',
+    imageUrl: 'https://placehold.co/280x244/000d1a/52b788',
     flavorText: 'A serpent of living fire, born from the floods of ages past. It hunts those who set the fields to burn.',
   },
   {
