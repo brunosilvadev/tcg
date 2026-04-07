@@ -14,7 +14,7 @@ export class CardComponent {
   @Input() flipEnabled = false;
   @Output() clicked = new EventEmitter<Card>();
 
-  isFlipped = false;
+  @Input() isFlipped = false;
 
   get rarityInitial(): string {
     return this.card.rarity[0].toUpperCase();

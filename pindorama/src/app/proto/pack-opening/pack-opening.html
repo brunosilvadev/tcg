@@ -1,0 +1,72 @@
+<div class="pack-opening">
+
+  <!-- ── Pack ──────────────────────────────────────────────── -->
+  <div class="pack" *ngIf="showPack()" [@packAnim]>
+    <div class="pack__foil"
+      [class.pack__foil--torn]="phase() === 'torn'">
+
+      <!-- Glow visible through the torn opening -->
+      <div class="pack__inner-glow"
+        [style.opacity]="tearProgress() / 150">
+      </div>
+
+      <!-- Pack artwork -->
+      <div class="pack__art">
+        <div class="pack__emblem">&#x2B21;</div>
+        <h2 class="pack__title">The First Peoples</h2>
+        <p class="pack__subtitle">TUP-1</p>
+      </div>
+
+      <!-- Lid (tears away from left to right) -->
+      <div class="pack__lid"
+        [class.pack__lid--completing]="tearCompleting()"
+        [style.clip-path]="lidClipPath()">
+      </div>
+
+      <!-- Score line (visual tear guide) -->
+      <div class="pack__score"></div>
+    </div>
+
+    <!-- Invisible drag target over top portion -->
+    <div class="pack__tear-zone"
+      (pointerdown)="onTearStart($event)"
+      (pointermove)="onTearMove($event)"
+      (pointerup)="onTearEnd()">
+    </div>
+
+    <!-- Animated drag cue -->
+    <div class="pack__cue" *ngIf="phase() === 'sealed'">
+      <span class="pack__cue-text">drag to open</span>
+      <span class="pack__cue-arrow">&rarr;</span>
+    </div>
+  </div>
+
+  <!-- ── Cards row ─────────────────────────────────────────── -->
+  <div class="cards-row"
+    *ngIf="showCards()"
+    [@cardsRow]="flyingAway() ? 'fly' : 'show'">
+    <div
+      *ngFor="let card of cards(); let i = index; trackBy: trackById"
+      class="card-slot"
+      [@cardErupt]="{ value: 'in', params: { delay: i * 120, rot: (i - 2) * 12 } }"
+      [@rareGlow]="glowState(i)">
+      <app-card [card]="card" [isFlipped]="!isRevealed(i)" (clicked)="openLightbox(card, i)"></app-card>
+    </div>
+  </div>
+
+  <!-- ── Done button ───────────────────────────────────────── -->
+  <button
+    class="done-btn"
+    *ngIf="showDone()"
+    [@fadeIn]
+    (click)="onDone()">
+    Collect Cards
+  </button>
+
+</div>
+
+<!-- ── Card lightbox ──────────────────────────────────────── -->
+<app-card-lightbox
+  [card]="selectedCard()"
+  (close)="closeLightbox()">
+</app-card-lightbox>

@@ -1,0 +1,230 @@
+$obsidian:  #0e0b08;
+$parchment: #f5e6c8;
+$gold:      #d4a017;
+$bark:      #1c1208;
+
+:host { display: block; }
+
+.pack-opening {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #1a150e 0%, $obsidian 70%);
+  gap: 2.5rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+// ── Pack ──────────────────────────────────────────────────────
+.pack {
+  position: relative;
+  width: min(320px, 75vw);
+  aspect-ratio: 63 / 88;
+
+  &__foil {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(170deg, #2a2015 0%, #0e0a05 100%);
+    border: 2px solid rgba($gold, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba($parchment, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &--torn {
+      border-color: rgba($gold, 0.6);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba($gold, 0.3),
+        inset 0 1px 0 rgba($parchment, 0.1);
+    }
+  }
+
+  // Glow behind lid (visible as lid is torn)
+  &__inner-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgba($gold, 0.7) 0%,
+      rgba($gold, 0.15) 60%,
+      transparent 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  // Pack artwork
+  &__art {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    z-index: 0;
+  }
+
+  &__emblem {
+    font-size: 5rem;
+    color: rgba($gold, 0.2);
+    line-height: 1;
+    filter: drop-shadow(0 0 8px rgba($gold, 0.1));
+  }
+
+  &__title {
+    font-family: 'Georgia', serif;
+    font-size: 1.4rem;
+    color: rgba($parchment, 0.65);
+    letter-spacing: 0.06em;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-family: 'Georgia', serif;
+    font-size: 0.8rem;
+    color: rgba($parchment, 0.3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  // Lid overlay — clips away during tear
+  &__lid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: linear-gradient(180deg, #2a2015 0%, #1a1208 100%);
+    border-bottom: 1px solid rgba($gold, 0.15);
+    z-index: 3;
+    will-change: clip-path;
+
+    // Smooth clip-path transition on auto-complete
+    &--completing {
+      transition: clip-path 0.3s ease-out;
+    }
+  }
+
+  // Score line (dotted tear guide)
+  &__score {
+    position: absolute;
+    top: 20%;
+    left: 4%;
+    right: 4%;
+    height: 0;
+    border-top: 2px dashed rgba($gold, 0.18);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  // Invisible drag target (covers top portion + some below)
+  &__tear-zone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 35%;
+    z-index: 10;
+    cursor: grab;
+    touch-action: none;
+
+    &:active { cursor: grabbing; }
+  }
+
+  // Animated drag cue
+  &__cue {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+    animation: cue-pulse 2s ease-in-out infinite;
+  }
+
+  &__cue-text {
+    font-family: 'Georgia', serif;
+    font-size: 0.75rem;
+    color: rgba($parchment, 0.45);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__cue-arrow {
+    font-size: 1rem;
+    color: rgba($gold, 0.55);
+    animation: cue-slide 1.5s ease-in-out infinite;
+  }
+}
+
+// ── Cards row ─────────────────────────────────────────────────
+.cards-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.4rem, 2vw, 1rem);
+  perspective: 1200px;
+}
+
+.card-slot {
+  width: min(180px, 20vw);
+  flex-shrink: 0;
+  border-radius: 6px;
+  cursor: pointer;
+
+  app-card { display: block; }
+}
+
+// ── Done button ───────────────────────────────────────────────
+.done-btn {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  color: $parchment;
+  background: linear-gradient(170deg, rgba($gold, 0.18), rgba($bark, 0.8));
+  border: 1.5px solid rgba($gold, 0.35);
+  border-radius: 6px;
+  padding: 0.65rem 2.2rem;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: rgba($gold, 0.65);
+    box-shadow: 0 0 16px rgba($gold, 0.2);
+  }
+}
+
+// ── Cue keyframes (idle hint only) ────────────────────────────
+@keyframes cue-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+@keyframes cue-slide {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(8px); }
+}
+
+// ── Responsive ────────────────────────────────────────────────
+@media (max-width: 520px) {
+  .pack-opening { padding: 1rem; gap: 1.5rem; }
+  .card-slot    { width: min(140px, 20vw); }
+}
