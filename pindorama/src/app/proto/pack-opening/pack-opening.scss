@@ -185,7 +185,7 @@ $bark:      #1c1208;
 }
 
 .card-slot {
-  width: min(180px, 20vw);
+  width: min(260px, 22vw);
   flex-shrink: 0;
   border-radius: 6px;
   cursor: pointer;
@@ -226,5 +226,5 @@ $bark:      #1c1208;
 // ── Responsive ────────────────────────────────────────────────
 @media (max-width: 520px) {
   .pack-opening { padding: 1rem; gap: 1.5rem; }
-  .card-slot    { width: min(140px, 20vw); }
+  .card-slot    { width: min(160px, 22vw); }
 }
