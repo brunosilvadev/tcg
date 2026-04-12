@@ -1,4 +1,4 @@
-export type Rarity = 'common' | 'uncommon' | 'rare';
+export type Rarity = 'common' | 'uncommon' | 'rare' | 'legendary';
 
 export interface Card {
   id: number;

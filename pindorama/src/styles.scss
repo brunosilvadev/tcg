@@ -1,3 +1,21 @@
+@use '@angular/material' as mat;
+
+// ── Angular Material — minimal dark theme ──────────────────
+@include mat.core();
+
+$pindorama-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary:    mat.$green-palette,
+  ),
+  density: (scale: 0),
+));
+
+html {
+  // Only include themes for the components we actually use
+  @include mat.progress-bar-theme($pindorama-theme);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;

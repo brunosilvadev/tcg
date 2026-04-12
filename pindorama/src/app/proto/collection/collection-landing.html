@@ -1,0 +1,90 @@
+<div class="collection-page">
+
+  <!-- ── Zone 1: Hero ──────────────────────────────────────────── -->
+  <section class="hero">
+
+    <!-- Layer 1: Base (Ken Burns) -->
+    <div class="hero__bg"></div>
+
+    <!-- Layer 2: Lightning flash -->
+    <div class="hero__lightning"></div>
+
+    <!-- Layer 3: Canopy silhouettes -->
+    <div class="hero__canopy hero__canopy--left"></div>
+    <div class="hero__canopy hero__canopy--right"></div>
+
+    <!-- Layer 4: Floating particles -->
+    <div class="hero__particles">
+      @for (p of particles; track p.left) {
+        <span
+          class="particle"
+          [class.particle--gold]="p.isGold"
+          [style.left]="p.left"
+          [style.animationDelay]="p.delay"
+          [style.animationDuration]="p.dur">
+        </span>
+      }
+    </div>
+
+    <!-- Layer 5: Bottom vignette -->
+    <div class="hero__vignette"></div>
+
+    <!-- Hero content — above all layers -->
+    <div class="hero__content">
+      <p class="hero__eyebrow">{{ collection.eyebrow }}</p>
+
+      <p class="hero__intro">
+        The thunder lights up the night at the Atlantic jungle as creatures big
+        and small seek shelter and rest. But not the <em>{{ collection.name }}</em> hunter,
+        bow and arrow steady at hand, calm breath and the focus of a predator.
+        The breeze causes the prey to shiver, unaware of its fate.
+        Tonight the whole tribe will feast.
+      </p>
+
+      <div class="hero__footer">
+        <div class="hero__title-block">
+          <h1 class="hero__name">{{ collection.name }}</h1>
+          <p class="hero__subtitle">{{ collection.subtitle }}</p>
+        </div>
+        <div class="hero__count">
+          <span class="hero__count-num">{{ collection.totalCards }}</span>
+          <span class="hero__count-label">cards</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── Divider ───────────────────────────────────────────────── -->
+  <div class="collection-divider"></div>
+
+  <!-- ── Zone 2: Below the fold ───────────────────────────────── -->
+  <section class="collection-body">
+
+    <!-- Collection progress -->
+    <div class="coll-progress">
+      <div class="coll-progress__header">
+        <span class="coll-progress__label">Your collection</span>
+        <span class="coll-progress__fraction">{{ collection.owned }} / {{ collection.totalCards }}</span>
+      </div>
+      <div class="coll-progress__track">
+        <div class="coll-progress__fill" [style.width.%]="progress"></div>
+      </div>
+    </div>
+
+    <!-- Rarity breakdown -->
+    <div class="rarity-row">
+      @for (r of collection.rarities; track r.type) {
+        <div class="rarity-chip" [class.rarity-chip--rare]="r.type === 'rare'">
+          <p class="rarity-chip__label">{{ r.label }}</p>
+          <p class="rarity-chip__count">{{ r.owned }}/{{ r.total }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- CTA -->
+    <a class="cta-btn" routerLink="cards">Browse collection →</a>
+
+  </section>
+
+</div>

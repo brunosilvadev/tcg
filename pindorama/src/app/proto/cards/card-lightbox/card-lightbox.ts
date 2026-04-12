@@ -4,9 +4,10 @@ import { Card } from '../../models/card.model';
 import { CardComponent } from '../card/card';
 
 const GLOW_COLORS: Record<string, string> = {
-  common:   'rgba(156, 163, 175, 0.65)',
-  uncommon: 'rgba(82,  183, 136, 0.65)',
-  rare:     'rgba(212, 160,  23, 0.80)',
+  common:    'rgba(156, 163, 175, 0.65)',
+  uncommon:  'rgba(82,  183, 136, 0.65)',
+  rare:      'rgba(212, 160,  23, 0.80)',
+  legendary: 'rgba(167, 139, 250, 0.95)',
 };
 
 const DRAG_THRESHOLD = 5;

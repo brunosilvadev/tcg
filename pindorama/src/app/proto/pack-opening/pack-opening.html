@@ -1,7 +1,27 @@
 <div class="pack-opening">
 
+  <!-- ── Mystical aura behind sealed pack ─────────────────── -->
+  <div class="aura" *ngIf="showPack()"
+    [class.aura--tearing]="phase() === 'tearing' || phase() === 'shaking'"
+    [class.aura--torn]="phase() === 'torn'">
+    <div class="aura__glow"></div>
+    <div class="aura__ring"></div>
+    <div class="aura__runes"></div>
+    <div class="aura__particles"></div>
+  </div>
+
+  <!-- ── Tear-open burst ──────────────────────────────────── -->
+  <div class="burst" *ngIf="showBurst()" [@burstAnim]>
+    <div class="burst__shockwave"></div>
+    <div class="burst__flash"></div>
+    <div class="burst__rays"></div>
+    <div class="burst__sparks"></div>
+  </div>
+
   <!-- ── Pack ──────────────────────────────────────────────── -->
-  <div class="pack" *ngIf="showPack()" [@packAnim]>
+  <div class="pack" *ngIf="showPack()" [@packAnim]
+    [@packShake]="isShaking() ? 'shaking' : 'idle'"
+    (@packShake.done)="onShakeDone()">
     <div class="pack__foil"
       [class.pack__foil--torn]="phase() === 'torn'">
 

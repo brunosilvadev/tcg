@@ -23,7 +23,7 @@ import { CardComponent } from '../cards/card/card';
 import { CardLightboxComponent } from '../cards/card-lightbox/card-lightbox';
 import { PackService } from '../services/pack.service';
 
-type Phase = 'sealed' | 'tearing' | 'torn' | 'erupting' | 'revealing' | 'done';
+type Phase = 'sealed' | 'tearing' | 'shaking' | 'torn' | 'erupting' | 'revealing' | 'done';
 
 @Component({
   selector: 'app-pack-opening',
@@ -38,6 +38,38 @@ type Phase = 'sealed' | 'tearing' | 'torn' | 'erupting' | 'revealing' | 'done';
           '0.55s ease-in',
           style({ opacity: 0, transform: 'translateY(80px) scale(0.85)' })
         ),
+      ]),
+    ]),
+
+    // ── Pack shake — builds suspense before the burst ───────
+    trigger('packShake', [
+      state('idle',    style({ transform: 'none' })),
+      state('shaking', style({ transform: 'none' })),
+      transition('idle => shaking', [
+        animate('1.8s linear', keyframes([
+          // Small trembles — something stirring inside
+          style({ transform: 'translate(0,0) rotate(0deg)',             offset: 0    }),
+          style({ transform: 'translate(-4px,-1px) rotate(-0.8deg)',   offset: 0.04 }),
+          style({ transform: 'translate(4px,1px) rotate(0.8deg)',      offset: 0.08 }),
+          style({ transform: 'translate(-6px,-2px) rotate(-1.2deg)',   offset: 0.12 }),
+          style({ transform: 'translate(6px,2px) rotate(1.2deg)',      offset: 0.16 }),
+          // Building intensity
+          style({ transform: 'translate(-10px,-3px) rotate(-2deg)',    offset: 0.22 }),
+          style({ transform: 'translate(10px,3px) rotate(2deg)',       offset: 0.28 }),
+          style({ transform: 'translate(-12px,-4px) rotate(-2.5deg)', offset: 0.34 }),
+          style({ transform: 'translate(12px,4px) rotate(2.5deg)',     offset: 0.40 }),
+          // Peak
+          style({ transform: 'translate(-14px,-4px) rotate(-3deg)',   offset: 0.46 }),
+          style({ transform: 'translate(14px,4px) rotate(3deg)',       offset: 0.52 }),
+          style({ transform: 'translate(-14px,-4px) rotate(-3deg)',   offset: 0.58 }),
+          style({ transform: 'translate(14px,4px) rotate(3deg)',       offset: 0.64 }),
+          // Easing back
+          style({ transform: 'translate(-10px,-3px) rotate(-2deg)',    offset: 0.72 }),
+          style({ transform: 'translate(10px,3px) rotate(2deg)',       offset: 0.80 }),
+          style({ transform: 'translate(-6px,-2px) rotate(-1.5deg)',  offset: 0.88 }),
+          style({ transform: 'translate(4px,1px) rotate(1deg)',        offset: 0.94 }),
+          style({ transform: 'translate(0,0) rotate(0deg)',             offset: 1    }),
+        ])),
       ]),
     ]),
 
@@ -100,6 +132,14 @@ type Phase = 'sealed' | 'tearing' | 'torn' | 'erupting' | 'revealing' | 'done';
         })),
       ]),
     ]),
+
+    // ── Burst explosion on pack open ────────────────────────
+    trigger('burstAnim', [
+      transition(':enter', [
+        style({ opacity: 1 }),
+        animate('1s ease-out', style({ opacity: 0 })),
+      ]),
+    ]),
   ],
 })
 export class PackOpeningComponent implements OnInit, OnDestroy {
@@ -115,7 +155,9 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
   readonly showDone = signal(false);
   readonly flyingAway = signal(false);
   readonly tearCompleting = signal(false);
+  readonly isShaking = signal(false);
   readonly selectedCard = signal<Card | null>(null);
+  readonly showBurst = signal(false);
 
   // ── Drag internals ────────────────────────────────────────
   private isTearDragging = false;
@@ -124,7 +166,7 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
   // ── Computed ──────────────────────────────────────────────
   readonly showPack = computed(() => {
     const p = this.phase();
-    return p === 'sealed' || p === 'tearing' || p === 'torn';
+    return p === 'sealed' || p === 'tearing' || p === 'shaking' || p === 'torn';
   });
 
   readonly showCards = computed(() => {
@@ -191,9 +233,21 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
     const progress = ((event.clientX - rect.left) / rect.width) * 100;
     this.tearProgress.set(Math.max(0, Math.min(100, progress)));
 
-    if (this.tearProgress() >= 80) {
-      this.completeTear();
+    if (this.tearProgress() >= 80 && !this.isShaking()) {
+      this.startShake();
     }
+  }
+
+  private startShake(): void {
+    this.isTearDragging = false;
+    this.phase.set('shaking');
+    this.isShaking.set(true);
+  }
+
+  // Called by (@packShake.done) in the template
+  onShakeDone(): void {
+    if (this.phase() !== 'shaking') return;
+    this.completeTear();
   }
 
   private completeTear(): void {
@@ -201,11 +255,13 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
     this.tearCompleting.set(true);
     this.tearProgress.set(100);
     this.phase.set('torn');
+    this.showBurst.set(true);
 
     this.defer(() => {
       this.phase.set('erupting');
 
       this.defer(() => {
+        this.showBurst.set(false);
         this.phase.set('revealing');
         this.revealCards();
       }, 1000);

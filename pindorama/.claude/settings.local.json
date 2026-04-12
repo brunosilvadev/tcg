@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx ng:*)",
+      "Bash(npm show:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

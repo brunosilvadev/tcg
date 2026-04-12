@@ -94,4 +94,16 @@ export const MOCK_CARDS: Card[] = [
     flavorText: 'The wandering evil. It takes the shape of a white deer with fire-red eyes to lure the doomed deeper into the jungle.',
     artistName: 'L. Ferreira',
   },
+  {
+    id: 9,
+    name: 'Jurupari',
+    type: 'Deity',
+    rarity: 'legendary',
+    cardNumber: 9,
+    collectionSize: 45,
+    collection: 'TUP-1: The First Peoples',
+    imageUrl: 'https://placehold.co/280x244/1e1b4b/c4b5fd',
+    flavorText: 'Lord of the dark rite, keeper of forbidden names. His song drives men to madness; his silence, to death.',
+    artistName: 'M. Cavalcante',
+  },
 ];
