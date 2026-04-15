@@ -1,0 +1,68 @@
+<div class="profile">
+
+  <app-nav></app-nav>
+
+  <div class="profile__content">
+
+    <!-- ── Header ────────────────────────────────────────── -->
+    <header class="profile-header">
+      <div class="profile-header__avatar" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0
+            2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+      </div>
+      <p class="profile-header__sub">Signed in as</p>
+      <h1 class="profile-header__name">{{ username }}</h1>
+    </header>
+
+    <!-- ── Change password ────────────────────────────────── -->
+    <section class="profile-card">
+      <h2 class="profile-card__title">Change Password</h2>
+
+      <form class="profile-form" (ngSubmit)="changePassword()" #pwForm="ngForm" novalidate>
+
+        <label class="profile-form__label" for="currentPw">Current password</label>
+        <input class="profile-form__input" id="currentPw" type="password"
+          autocomplete="current-password"
+          [(ngModel)]="currentPassword" name="currentPw" required>
+
+        <label class="profile-form__label" for="newPw">New password</label>
+        <input class="profile-form__input" id="newPw" type="password"
+          autocomplete="new-password"
+          [(ngModel)]="newPassword" name="newPw" required>
+
+        <label class="profile-form__label" for="confirmPw">Confirm new password</label>
+        <input class="profile-form__input" id="confirmPw" type="password"
+          autocomplete="new-password"
+          [(ngModel)]="confirmPassword" name="confirmPw" required>
+
+        @if (passwordStatus() === 'error') {
+          <p class="profile-form__feedback profile-form__feedback--error" role="alert">
+            {{ passwordError() }}
+          </p>
+        }
+        @if (passwordStatus() === 'success') {
+          <p class="profile-form__feedback profile-form__feedback--success" role="status">
+            Password updated.
+          </p>
+        }
+
+        <button class="profile-btn profile-btn--primary" type="submit">
+          Update password
+        </button>
+
+      </form>
+    </section>
+
+    <!-- ── Danger zone ────────────────────────────────────── -->
+    <section class="profile-card profile-card--danger">
+      <h2 class="profile-card__title">Account</h2>
+      <button class="profile-btn profile-btn--danger" type="button" (click)="logout()">
+        Log out
+      </button>
+    </section>
+
+  </div>
+
+</div>

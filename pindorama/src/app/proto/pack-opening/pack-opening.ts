@@ -22,12 +22,13 @@ import { Card } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
 import { CardLightboxComponent } from '../cards/card-lightbox/card-lightbox';
 import { PackService } from '../services/pack.service';
+import { NavComponent } from '../../shared/nav/nav';
 
 type Phase = 'sealed' | 'tearing' | 'shaking' | 'torn' | 'erupting' | 'revealing' | 'done';
 
 @Component({
   selector: 'app-pack-opening',
-  imports: [NgIf, NgFor, CardComponent, CardLightboxComponent],
+  imports: [NgIf, NgFor, CardComponent, CardLightboxComponent, NavComponent],
   templateUrl: './pack-opening.html',
   styleUrl: './pack-opening.scss',
   animations: [

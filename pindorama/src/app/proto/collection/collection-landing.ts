@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NavComponent } from '../../shared/nav/nav';
 
 export interface CollectionInfo {
   eyebrow:    string;
@@ -31,7 +32,7 @@ const TUPINAMBA: CollectionInfo = {
 @Component({
   selector:    'app-collection-landing',
   standalone:  true,
-  imports:     [RouterLink],
+  imports:     [RouterLink, NavComponent],
   templateUrl: './collection-landing.html',
   styleUrl:    './collection-landing.scss',
 })

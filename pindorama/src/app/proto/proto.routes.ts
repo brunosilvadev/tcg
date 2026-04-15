@@ -4,6 +4,7 @@ import { CardsPageComponent } from './cards/cards';
 import { PackOpeningComponent } from './pack-opening/pack-opening';
 import { HomeComponent } from './home/home';
 import { CollectionLandingComponent } from './collection/collection-landing';
+import { ProfileComponent } from './profile/profile';
 
 export const PROTO_ROUTES: Routes = [
   { path: '',                          component: ProtoHome },
@@ -11,4 +12,5 @@ export const PROTO_ROUTES: Routes = [
   { path: 'cards',                     component: CardsPageComponent },
   { path: 'pack-opening',              component: PackOpeningComponent },
   { path: 'collection/tupinamba',      component: CollectionLandingComponent },
+  { path: 'profile',                   component: ProfileComponent },
 ];

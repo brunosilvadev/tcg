@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgFor } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Card } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
+import { NavComponent } from '../../shared/nav/nav';
 
 @Component({
   selector: 'app-home',
-  imports: [NgFor, RouterLink, RouterLinkActive, MatProgressBarModule, CardComponent],
+  imports: [NgFor, MatProgressBarModule, CardComponent, NavComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
