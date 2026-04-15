@@ -18,6 +18,11 @@
         </div>
 
         <div class="card__type-bar">
+          <span class="card__type-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path [attr.d]="typeIconPath"/>
+            </svg>
+          </span>
           <span class="card__type">{{ card.type }}</span>
         </div>
 
