@@ -1,4 +1,24 @@
 <div class="home">
+
+  <!-- ── Top navigation (desktop only) ─────────────────────── -->
+  <nav class="top-nav" aria-label="Main navigation">
+    <div class="top-nav__inner">
+      <span class="top-nav__brand">Pindorama</span>
+      <div class="top-nav__links">
+        <a class="top-nav__item" routerLink="/proto/home"
+          routerLinkActive="top-nav__item--active"
+          [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a class="top-nav__item" routerLink="/proto/cards"
+          routerLinkActive="top-nav__item--active">Collection</a>
+        <a class="top-nav__item" routerLink="/proto/pack-opening"
+          routerLinkActive="top-nav__item--active">Packs</a>
+        <a class="top-nav__item" routerLink="/proto"
+          routerLinkActive="top-nav__item--active"
+          [routerLinkActiveOptions]="{ exact: true }">Profile</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="home__content">
 
     <!-- ── Greeting ──────────────────────────────────────── -->
@@ -70,7 +90,7 @@
     </div>
 
     <!-- ── Next booster pack ──────────────────────────────── -->
-    <section class="home-card">
+    <section class="home-card home-card--booster">
       <div class="streak-header">
         <p class="home-card__eyebrow">Next Booster Pack</p>
         <div class="streak-badge">
@@ -110,7 +130,7 @@
     </section>
 
     <!-- ── Best card from last pack ───────────────────────── -->
-    <section class="home-card">
+    <section class="home-card home-card--best-card">
       <p class="home-card__eyebrow">Best Card — Last Pack</p>
       <div class="best-card">
         <div class="best-card__thumb">
@@ -129,7 +149,7 @@
     </section>
 
     <!-- ── Fact of the day ────────────────────────────────── -->
-    <section class="home-card">
+    <section class="home-card home-card--fact">
       <p class="home-card__eyebrow">Fact of the Day</p>
       <p class="fact-text">{{ factOfDay.text }}</p>
       <span class="fact-tag">{{ factOfDay.tag }}</span>
