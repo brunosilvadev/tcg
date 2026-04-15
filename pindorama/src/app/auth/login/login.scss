@@ -12,7 +12,7 @@ $warn:      #e05252;
 
 :host { display: block; }
 
-.signup-page {
+.login-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -25,7 +25,6 @@ $warn:      #e05252;
     radial-gradient(ellipse 40% 40% at 80% 20%, rgba($ember, 0.1) 0%, transparent 60%),
     $obsidian;
 
-  // Tribal geometry — same as landing
   &::before {
     content: '';
     position: fixed;
@@ -51,7 +50,7 @@ $warn:      #e05252;
 
 // ── Card ──────────────────────────────────────────────────────
 
-.signup-card {
+.login-card {
   position: relative;
   width: 100%;
   max-width: 400px;
@@ -107,7 +106,7 @@ $warn:      #e05252;
 
 // ── Form ──────────────────────────────────────────────────────
 
-.signup-form {
+.login-form {
   display: flex;
   flex-direction: column;
 
