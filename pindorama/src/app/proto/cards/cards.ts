@@ -5,10 +5,11 @@ import { MOCK_CARDS } from './mock-cards';
 import { CardComponent } from './card/card';
 import { CardLightboxComponent } from './card-lightbox/card-lightbox';
 import { FooterComponent } from '../../shared/footer/footer';
+import { NavComponent } from '../../shared/nav/nav';
 
 @Component({
   selector: 'app-cards',
-  imports: [NgIf, NgFor, CardComponent, CardLightboxComponent, FooterComponent],
+  imports: [NgIf, NgFor, CardComponent, CardLightboxComponent, FooterComponent, NavComponent],
   templateUrl: './cards.html',
   styleUrl: './cards.scss',
 })
