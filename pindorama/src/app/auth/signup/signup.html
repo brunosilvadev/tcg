@@ -1,0 +1,89 @@
+<div class="signup-page">
+
+  <div class="signup-card">
+
+    <!-- Logo -->
+    <div class="signup-card__logo">
+      <app-araku-pytxa class="signup-card__glyph" [size]="28"></app-araku-pytxa>
+      <span class="signup-card__wordmark">PINDORAMA</span>
+    </div>
+
+    <h1 class="signup-card__title">Create your account</h1>
+
+    <!-- Form -->
+    <form class="signup-form" (submit)="onSubmit($event)" novalidate>
+
+      <!-- Email -->
+      <label class="signup-form__label" for="signup-email">Email</label>
+      <input
+        class="signup-form__input"
+        [class.signup-form__input--error]="emailError"
+        id="signup-email"
+        type="email"
+        placeholder="you@example.com"
+        [(ngModel)]="email"
+        name="email"
+        autocomplete="email"
+        [disabled]="submitting()">
+      @if (emailError) {
+        <p class="signup-form__error">{{ emailError }}</p>
+      }
+
+      <!-- Password -->
+      <label class="signup-form__label" for="signup-password">Password</label>
+      <input
+        class="signup-form__input"
+        [class.signup-form__input--error]="passwordError"
+        id="signup-password"
+        type="password"
+        placeholder="At least 8 characters"
+        [(ngModel)]="password"
+        name="password"
+        autocomplete="new-password"
+        [disabled]="submitting()">
+      @if (passwordError) {
+        <p class="signup-form__error">{{ passwordError }}</p>
+      }
+
+      <!-- Confirm password -->
+      <label class="signup-form__label" for="signup-confirm">Confirm password</label>
+      <input
+        class="signup-form__input"
+        [class.signup-form__input--error]="confirmError"
+        id="signup-confirm"
+        type="password"
+        placeholder="Re-enter your password"
+        [(ngModel)]="confirmPassword"
+        name="confirmPassword"
+        autocomplete="new-password"
+        [disabled]="submitting()">
+      @if (confirmError) {
+        <p class="signup-form__error">{{ confirmError }}</p>
+      }
+
+      <!-- Submit -->
+      <button
+        class="signup-form__btn"
+        type="submit"
+        [disabled]="submitting()">
+        @if (submitting()) {
+          <span class="signup-form__spinner"></span>
+        } @else {
+          Create Account
+        }
+      </button>
+
+      @if (serverError()) {
+        <p class="signup-form__server-error">{{ serverError() }}</p>
+      }
+    </form>
+
+    <!-- Login link -->
+    <p class="signup-card__alt">
+      Already have an account?
+      <a class="signup-card__link" routerLink="/login">Log in</a>
+    </p>
+
+  </div>
+
+</div>

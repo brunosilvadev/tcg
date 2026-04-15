@@ -1,0 +1,200 @@
+$obsidian:  #0e0b08;
+$bark:      #1a1208;
+$clay:      #3d1f0a;
+$gold:      #d4a017;
+$gold-dim:  #a07810;
+$ember:     #c4621a;
+$ash:       #7a6a55;
+$parchment: #f5e6c8;
+$warn:      #e05252;
+
+// ── Page ──────────────────────────────────────────────────────
+
+:host { display: block; }
+
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  font-family: 'Georgia', serif;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba($clay, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(#2d6a4f, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba($ember, 0.1) 0%, transparent 60%),
+    $obsidian;
+
+  // Tribal geometry — same as landing
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        60deg,
+        transparent,
+        transparent 40px,
+        rgba($gold, 0.02) 40px,
+        rgba($gold, 0.02) 41px
+      ),
+      repeating-linear-gradient(
+        -60deg,
+        transparent,
+        transparent 40px,
+        rgba($gold, 0.02) 40px,
+        rgba($gold, 0.02) 41px
+      );
+    pointer-events: none;
+  }
+}
+
+// ── Card ──────────────────────────────────────────────────────
+
+.signup-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem 2rem;
+  background: rgba($bark, 0.6);
+  border: 1px solid rgba($gold, 0.18);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    margin-bottom: 1.75rem;
+  }
+
+  &__glyph {
+    color: $ember;
+  }
+
+  &__wordmark {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: $gold;
+    text-shadow: 0 0 16px rgba($gold, 0.35);
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: $parchment;
+    letter-spacing: 0.04em;
+    text-align: center;
+    margin-bottom: 1.75rem;
+  }
+
+  &__alt {
+    text-align: center;
+    font-size: 0.82rem;
+    color: $ash;
+    margin-top: 1.5rem;
+  }
+
+  &__link {
+    color: $gold;
+    text-decoration: none;
+    transition: color 0.15s;
+    &:hover { color: #f0d080; }
+  }
+}
+
+// ── Form ──────────────────────────────────────────────────────
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+
+  &__label {
+    font-size: 0.78rem;
+    color: $ash;
+    letter-spacing: 0.04em;
+    margin-top: 1rem;
+    margin-bottom: 0.35rem;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  &__input {
+    background: rgba($obsidian, 0.6);
+    border: 1px solid rgba($gold-dim, 0.35);
+    border-radius: 0.4rem;
+    color: $parchment;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.65rem 0.85rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s;
+
+    &::placeholder { color: rgba($ash, 0.7); }
+    &:focus        { border-color: $gold; }
+    &:disabled     { opacity: 0.5; }
+
+    &--error {
+      border-color: rgba($warn, 0.6);
+      &:focus { border-color: $warn; }
+    }
+  }
+
+  &__error {
+    font-size: 0.78rem;
+    color: $warn;
+    margin-top: 0.3rem;
+    line-height: 1.3;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1rem;
+    background: $gold;
+    color: $obsidian;
+    border: none;
+    border-radius: 0.4rem;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: opacity 0.15s;
+
+    &:hover:not(:disabled) { opacity: 0.9; }
+    &:active:not(:disabled) { opacity: 0.75; }
+    &:disabled { opacity: 0.55; cursor: not-allowed; }
+  }
+
+  &__spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba($obsidian, 0.3);
+    border-top-color: $obsidian;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  &__server-error {
+    font-size: 0.82rem;
+    color: $ember;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid rgba($ember, 0.3);
+    border-radius: 0.4rem;
+    background: rgba($ember, 0.08);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

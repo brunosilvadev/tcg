@@ -1,0 +1,458 @@
+@use 'sass:color';
+
+// ─────────────────────────────────────────
+// Palette — matches the existing landing page
+// ─────────────────────────────────────────
+
+$obsidian:   #0e0b08;
+$bark:       #1c1208;
+$clay:       #3d1f0a;
+$ember:      #c4621a;
+$gold:       #d4a017;
+$pale-gold:  #f0d080;
+$jade:       #2d6a4f;
+$jade-light: #52b788;
+$parchment:  #f5e6c8;
+$ash:        #7a6a55;
+
+// ─── Base ───────────────────────────────
+
+.landing {
+  position: relative;
+  min-height: 100vh;
+  background: $obsidian;
+  color: $parchment;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  overflow-x: hidden;
+}
+
+// ─── Particles ──────────────────────────
+
+.particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: $gold;
+  opacity: 0;
+  animation: drift linear infinite;
+
+  &:nth-child(3n)   { background: $jade-light; width: 1px; height: 1px; }
+  &:nth-child(5n)   { background: $pale-gold; width: 3px; height: 3px; }
+  &:nth-child(7n)   { background: $ember; }
+}
+
+@keyframes drift {
+  0%   { opacity: 0;   transform: translateY(0) scale(1); }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.3; }
+  100% { opacity: 0;   transform: translateY(-80px) scale(0.5); }
+}
+
+// ─── Nav ────────────────────────────────
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem clamp(1.5rem, 4vw, 3rem);
+  background: $obsidian;
+  border-bottom: 1px solid rgba($gold, 0.15);
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: $gold;
+    text-shadow: 0 0 20px rgba($gold, 0.5);
+  }
+
+  &__logo-glyph {
+    color: $ember;
+    animation: pulse-glyph 3s ease-in-out infinite;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      color: $ash;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      &:hover { color: $pale-gold; }
+    }
+  }
+
+  &__btn {
+    background: $gold;
+    color: $obsidian !important;
+    padding: 0.4rem 1.1rem;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.8rem !important;
+    transition: background 0.2s;
+    &:hover { background: color.adjust($gold, $lightness: 6%); }
+  }
+}
+
+@keyframes pulse-glyph {
+  0%, 100% { opacity: 1; text-shadow: 0 0 8px rgba($ember, 0.6); }
+  50%       { opacity: 0.7; text-shadow: 0 0 20px rgba($ember, 1); }
+}
+
+// ─── Hero ───────────────────────────────
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba($clay, 0.6) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba($jade, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 20%, rgba($ember, 0.15) 0%, transparent 60%),
+    $obsidian;
+
+  // Tribal geometry overlay
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        60deg,
+        transparent,
+        transparent 40px,
+        rgba($gold, 0.025) 40px,
+        rgba($gold, 0.025) 41px
+      ),
+      repeating-linear-gradient(
+        -60deg,
+        transparent,
+        transparent 40px,
+        rgba($gold, 0.025) 40px,
+        rgba($gold, 0.025) 41px
+      );
+    pointer-events: none;
+  }
+
+  // TCG corner frame decorations
+  &__frame {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-color: rgba($gold, 0.4);
+    border-style: solid;
+
+    &--tl { top: 2rem; left: 2rem; border-width: 2px 0 0 2px; }
+    &--tr { top: 2rem; right: 2rem; border-width: 2px 2px 0 0; }
+    &--bl { bottom: 2rem; left: 2rem; border-width: 0 0 2px 2px; }
+    &--br { bottom: 2rem; right: 2rem; border-width: 0 2px 2px 0; }
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+  }
+
+  &__eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: $jade-light;
+    margin-bottom: 1.2rem;
+  }
+
+  &__title {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    background: linear-gradient(160deg, $pale-gold 0%, $gold 40%, $ember 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba($gold, 0.4));
+    margin-bottom: 1.2rem;
+  }
+
+  &__subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: $parchment;
+    letter-spacing: 0.06em;
+    margin-bottom: 2rem;
+  }
+
+  &__divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  &__divider-line {
+    display: block;
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, $gold);
+
+    &:last-child {
+      background: linear-gradient(to left, transparent, $gold);
+    }
+  }
+
+  &__divider-glyph {
+    color: $gold;
+    font-size: 0.9rem;
+    animation: pulse-glyph 4s ease-in-out infinite;
+  }
+
+  &__description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: color.adjust($parchment, $lightness: -15%);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+  }
+
+  // ── CTAs ──────────────────────────────
+  &__ctas {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  &__cta {
+    font-family: 'Georgia', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+
+    &--primary {
+      background: $gold;
+      color: $obsidian;
+      border: 1px solid $gold;
+      font-weight: 700;
+      &:hover { background: color.adjust($gold, $lightness: 6%); transform: translateY(-1px); }
+    }
+
+    &--secondary {
+      background: transparent;
+      color: $ash;
+      border: 1px solid rgba($gold, 0.35);
+      &:hover { border-color: rgba($gold, 0.7); color: $pale-gold; }
+    }
+  }
+}
+
+// ─── Hero card fan ──────────────────────
+
+.cards-preview {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 4rem;
+}
+
+.card-fan {
+  width: clamp(100px, 16vw, 140px);
+  transform-origin: bottom center;
+
+  &--left {
+    transform: rotate(-12deg) translateY(15px);
+    opacity: 0.65;
+  }
+
+  &--center {
+    width: clamp(120px, 18vw, 160px);
+    animation: card-float 4s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  &--right {
+    transform: rotate(12deg) translateY(15px);
+    opacity: 0.65;
+  }
+}
+
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+// ─── Features ───────────────────────────
+
+.features {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 5rem clamp(1.5rem, 4vw, 4rem);
+  background: linear-gradient(to bottom, $obsidian, $bark);
+  border-top: 1px solid rgba($gold, 0.12);
+  border-bottom: 1px solid rgba($gold, 0.12);
+  flex-wrap: wrap;
+  gap: 0;
+
+  &__item {
+    flex: 1;
+    min-width: 220px;
+    max-width: 320px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+
+    h3 {
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: $pale-gold;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: $ash;
+    }
+  }
+
+  &__icon {
+    color: $ember;
+    margin-bottom: 1rem;
+    display: block;
+    animation: pulse-glyph 3s ease-in-out infinite;
+  }
+
+  &__divider {
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba($gold, 0.3), transparent);
+    margin: 2rem 0;
+    align-self: stretch;
+  }
+}
+
+// ─── Card showcase ──────────────────────
+
+.showcase {
+  position: relative;
+  z-index: 1;
+  padding: clamp(4rem, 6vh, 6rem) clamp(1rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: $bark;
+
+  &__row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: clamp(3rem, 5vh, 4rem);
+    padding: 0 1rem;
+  }
+
+  &__card {
+    width: clamp(95px, 14vw, 155px);
+    flex-shrink: 0;
+    transition: transform 0.25s ease, z-index 0s;
+
+    &:not(:first-child) {
+      margin-left: clamp(-22px, -2.5vw, -10px);
+    }
+
+    &[style*="--sc-i: 0"] { transform: rotate(-3deg);  z-index: 1; }
+    &[style*="--sc-i: 1"] { transform: rotate(1.5deg); z-index: 2; }
+    &[style*="--sc-i: 2"] { transform: rotate(-1deg) translateY(-6px); z-index: 3; }
+    &[style*="--sc-i: 3"] { transform: rotate(2deg);   z-index: 2; }
+    &[style*="--sc-i: 4"] { transform: rotate(-2deg);  z-index: 1; }
+    &[style*="--sc-i: 5"] { transform: rotate(3deg) translateY(4px); z-index: 1; }
+
+    &:hover {
+      transform: translateY(-8px) rotate(0deg) !important;
+      z-index: 10;
+    }
+  }
+
+  &__cta {
+    font-family: 'Georgia', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.8rem 2.5rem;
+    border-radius: 4px;
+    background: $gold;
+    color: $obsidian;
+    font-weight: 700;
+    border: 1px solid $gold;
+    transition: background 0.2s, transform 0.15s;
+
+    &:hover {
+      background: color.adjust($gold, $lightness: 6%);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// ─── Footer ─────────────────────────────
+
+.landing-footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba($gold, 0.1);
+  background: $obsidian;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+
+  &__name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: rgba($gold, 0.3);
+  }
+
+  &__link {
+    font-size: 0.72rem;
+    color: rgba($jade-light, 0.5);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+    &:hover { color: $jade-light; }
+  }
+}

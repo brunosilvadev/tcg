@@ -1,0 +1,108 @@
+<div class="landing">
+
+  <!-- Ambient particles -->
+  <div class="particles">
+    <span
+      *ngFor="let p of particles"
+      class="particle"
+      [style.left.%]="p.x"
+      [style.top.%]="p.y"
+      [style.animation-delay]="p.delay"
+      [style.animation-duration]="p.duration"
+    ></span>
+  </div>
+
+  <!-- ── Nav ────────────────────────────────────────────────── -->
+  <nav class="nav">
+    <div class="nav__logo">
+      <app-araku-pytxa class="nav__logo-glyph" [size]="24"></app-araku-pytxa>
+      PINDORAMA
+    </div>
+    <div class="nav__links">
+      <a routerLink="/proto/home">Log In</a>
+      <a class="nav__btn" routerLink="/proto/home">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- ── Section 1: Hero ─────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__frame hero__frame--tl"></div>
+    <div class="hero__frame hero__frame--tr"></div>
+    <div class="hero__frame hero__frame--bl"></div>
+    <div class="hero__frame hero__frame--br"></div>
+
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Land of the Palm Trees</p>
+      <h1 class="hero__title">PINDORAMA</h1>
+      <p class="hero__subtitle">Collect the Legends of the Amazon</p>
+
+      <div class="hero__divider">
+        <span class="hero__divider-line"></span>
+        <span class="hero__divider-glyph">✦</span>
+        <span class="hero__divider-line"></span>
+      </div>
+
+      <p class="hero__description">
+        A trading card game rooted in Tupinambá folklore.<br>
+        Open sacred booster packs. Build your legacy.
+      </p>
+
+      <div class="hero__ctas">
+        <a class="hero__cta hero__cta--primary" routerLink="/proto/home">Start Collecting</a>
+        <a class="hero__cta hero__cta--secondary" routerLink="/proto/home">Log In</a>
+      </div>
+    </div>
+
+    <!-- Card fan — real CardComponents replacing the ghost rectangles -->
+    <div class="cards-preview">
+      @for (card of heroCards; track card.id; let i = $index) {
+        <div class="card-fan" [class.card-fan--left]="i === 0"
+             [class.card-fan--center]="i === 1"
+             [class.card-fan--right]="i === 2">
+          <app-card [card]="card" [flipEnabled]="false"></app-card>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ── Section 2: Value props ───────────────────────────────── -->
+  <section class="features">
+    <div class="features__item">
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
+      <h3>36 Cards to Discover</h3>
+      <p>Explore Collection I: Tupinambá — deities, spirits, and creatures from the forest.</p>
+    </div>
+    <div class="features__divider"></div>
+    <div class="features__item">
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
+      <h3>Earn Packs Daily</h3>
+      <p>Log in, complete tasks, and unlock booster packs to grow your collection.</p>
+    </div>
+    <div class="features__divider"></div>
+    <div class="features__item">
+      <div class="features__icon"><app-araku-pytxa [size]="32"></app-araku-pytxa></div>
+      <h3>Rooted in History</h3>
+      <p>Every card drawn from real indigenous lore — mythology you can hold.</p>
+    </div>
+  </section>
+
+  <!-- ── Section 3: Card showcase + final CTA ─────────────────── -->
+  <section class="showcase">
+    <div class="showcase__row">
+      @for (card of showcaseCards; track card.id; let i = $index) {
+        <div class="showcase__card" [style.--sc-i]="i">
+          <app-card [card]="card" [flipEnabled]="false"></app-card>
+        </div>
+      }
+    </div>
+
+    <a class="showcase__cta" routerLink="/proto/home">Create Your Account</a>
+  </section>
+
+  <!-- ── Footer ───────────────────────────────────────────────── -->
+  <footer class="landing-footer">
+    <span class="landing-footer__name">PINDORAMA</span>
+    <a class="landing-footer__link" routerLink="/commitment">Our commitment to indigenous peoples</a>
+  </footer>
+
+</div>
