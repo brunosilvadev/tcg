@@ -36,6 +36,50 @@ $jade-light: #52b788;
   // ── Grid ────────────────────────────────────────────────
 }
 
+// ── Search field ───────────────────────────────────────────
+
+.cards-search {
+  max-width: 1200px;
+  margin: 0 auto 1.25rem;
+  position: relative;
+
+  &__input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba($gold, 0.18);
+    border-radius: 8px;
+    padding: 0.55rem 2.4rem 0.55rem 0.9rem;
+    color: $parchment;
+    font-family: 'Georgia', serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &::placeholder { color: rgba($parchment, 0.28); }
+    &:focus        { border-color: rgba($gold, 0.36); }
+
+    // Hide browser-native clear button — we provide our own
+    &::-webkit-search-cancel-button { display: none; }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 0.65rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba($parchment, 0.3);
+    cursor: pointer;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0.25rem;
+    transition: color 0.15s;
+
+    &:hover { color: rgba($parchment, 0.65); }
+  }
+}
+
 // ── Rarity filter bar ──────────────────────────────────────
 
 .cards-filter {

@@ -24,12 +24,21 @@ export class CardsPageComponent {
   ];
 
   readonly activeRarities = signal(new Set<Rarity>());
-  readonly hasFilter      = computed(() => this.activeRarities().size > 0);
-  readonly filteredCards  = computed(() => {
+  readonly searchQuery    = signal('');
+
+  readonly hasFilter    = computed(() => this.activeRarities().size > 0);
+  readonly hasSearch    = computed(() => this.searchQuery().trim().length > 0);
+  readonly hasAnyFilter = computed(() => this.hasFilter() || this.hasSearch());
+
+  readonly filteredCards = computed(() => {
     const active = this.activeRarities();
-    return active.size === 0
-      ? this.allCards
-      : this.allCards.filter(c => active.has(c.rarity));
+    const q      = this.searchQuery().trim().toLowerCase();
+    return this.allCards.filter(c => {
+      const passesRarity = active.size === 0 || active.has(c.rarity);
+      const passesSearch = !q || c.name.toLowerCase().includes(q)
+                               || c.type.toLowerCase().includes(q);
+      return passesRarity && passesSearch;
+    });
   });
 
   toggleRarity(rarity: Rarity): void {
@@ -44,9 +53,9 @@ export class CardsPageComponent {
     return this.activeRarities().has(rarity);
   }
 
-  clearFilter(): void {
-    this.activeRarities.set(new Set());
-  }
+  clearFilter(): void { this.activeRarities.set(new Set()); }
+  clearSearch(): void { this.searchQuery.set(''); }
+  clearAll():   void  { this.clearFilter(); this.clearSearch(); }
 
   openLightbox(card: Card): void {
     this.selectedCard = card;

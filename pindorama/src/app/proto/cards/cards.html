@@ -4,9 +4,25 @@
     <h1 class="cards-page__title">Card Collection</h1>
     <p class="cards-page__meta">
       TUP-1: The First Peoples &middot;
-      {{ hasFilter() ? filteredCards().length + ' / ' + allCards.length : allCards.length }} cards
+      {{ hasAnyFilter() ? filteredCards().length + ' / ' + allCards.length : allCards.length }} cards
     </p>
   </header>
+
+  <!-- ── Search ───────────────────────────────────────────────── -->
+  <div class="cards-search">
+    <input
+      class="cards-search__input"
+      type="search"
+      placeholder="Search cards…"
+      [value]="searchQuery()"
+      (input)="searchQuery.set($any($event.target).value)"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Search cards">
+    @if (hasSearch()) {
+      <button class="cards-search__clear" (click)="clearSearch()" aria-label="Clear search">✕</button>
+    }
+  </div>
 
   <!-- ── Rarity filter bar ──────────────────────────────────── -->
   <div class="cards-filter">
@@ -36,14 +52,13 @@
   <ng-template #empty>
     <div class="cards-empty">
       <span class="cards-empty__glyph">✦</span>
-      <ng-container *ngIf="hasFilter(); else collectionEmpty">
-        <p class="cards-empty__title">No cards match the selected filter</p>
-        <button class="cards-empty__clear" (click)="clearFilter()">Show All</button>
-      </ng-container>
-      <ng-template #collectionEmpty>
+      @if (hasAnyFilter()) {
+        <p class="cards-empty__title">No cards match your search</p>
+        <button class="cards-empty__clear" (click)="clearAll()">Show All</button>
+      } @else {
         <p class="cards-empty__title">Your collection is empty</p>
         <p class="cards-empty__sub">Open a booster pack to begin your journey.</p>
-      </ng-template>
+      }
     </div>
   </ng-template>
 
