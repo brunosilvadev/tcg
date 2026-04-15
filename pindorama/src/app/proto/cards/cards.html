@@ -3,11 +3,30 @@
 <div class="cards-page">
 
   <header class="cards-page__header">
-    <h1 class="cards-page__title">Card Collection</h1>
-    <p class="cards-page__meta">
-      TUP-1: The First Peoples &middot;
-      {{ hasAnyFilter() ? filteredCards().length + ' / ' + allCards.length : allCards.length }} cards
-    </p>
+    <div class="cards-page__header-left">
+      <h1 class="cards-page__title">Card Collection</h1>
+      <p class="cards-page__meta">
+        TUP-1: The First Peoples &middot;
+        {{ hasAnyFilter() ? filteredCards().length + ' / ' + allCards.length : allCards.length }} cards
+      </p>
+    </div>
+
+    <!-- ── Rarity filter bar ──────────────────────────────────── -->
+    <div class="cards-filter">
+      <button
+        *ngIf="hasFilter()"
+        class="cards-filter__btn cards-filter__btn--show-all"
+        (click)="clearFilter()">
+        Show All
+      </button>
+      <button
+        *ngFor="let r of rarities"
+        class="cards-filter__btn cards-filter__btn--{{ r.value }}"
+        [class.is-active]="isActive(r.value)"
+        (click)="toggleRarity(r.value)">
+        {{ r.label }}
+      </button>
+    </div>
   </header>
 
   <!-- ── Search ───────────────────────────────────────────────── -->
@@ -24,23 +43,6 @@
     @if (hasSearch()) {
       <button class="cards-search__clear" (click)="clearSearch()" aria-label="Clear search">✕</button>
     }
-  </div>
-
-  <!-- ── Rarity filter bar ──────────────────────────────────── -->
-  <div class="cards-filter">
-    <button
-      *ngIf="hasFilter()"
-      class="cards-filter__btn cards-filter__btn--show-all"
-      (click)="clearFilter()">
-      Show All
-    </button>
-    <button
-      *ngFor="let r of rarities"
-      class="cards-filter__btn cards-filter__btn--{{ r.value }}"
-      [class.is-active]="isActive(r.value)"
-      (click)="toggleRarity(r.value)">
-      {{ r.label }}
-    </button>
   </div>
 
   <div class="cards-grid" *ngIf="filteredCards().length > 0; else empty">

@@ -14,9 +14,18 @@ $jade-light: #52b788;
   // ── Header ─────────────────────────────────────────────
   &__header {
     max-width: 1200px;
-    margin: 0 auto 2.5rem;
+    margin: 0 auto 1.5rem;
     padding-bottom: 1.25rem;
     border-bottom: 1px solid rgba($gold, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__header-left {
+    flex: 0 0 auto;
   }
 
   &__title {
@@ -83,12 +92,11 @@ $jade-light: #52b788;
 // ── Rarity filter bar ──────────────────────────────────────
 
 .cards-filter {
-  max-width: 1200px;
-  margin: 0 auto 2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 
   &__btn {
     font-family: 'Georgia', serif;

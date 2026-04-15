@@ -7,9 +7,15 @@
         routerLinkActive="top-nav__item--active"
         [routerLinkActiveOptions]="{ exact: true }">Home</a>
       <a class="top-nav__item" routerLink="/proto/cards"
-        routerLinkActive="top-nav__item--active">Collection</a>
-      <a class="top-nav__item" routerLink="/proto/pack-opening"
-        routerLinkActive="top-nav__item--active">Packs</a>
+        routerLinkActive="top-nav__item--active">My Collection</a>
+      <a class="top-nav__item" routerLink="/proto/collection/tupinamba"
+        routerLinkActive="top-nav__item--active">Nations</a>
+      <a class="top-nav__item top-nav__item--open-pack"
+        [class.top-nav__item--pack-ready]="packService.hasAvailablePack()"
+        [class.top-nav__item--pack-spent]="!packService.hasAvailablePack()"
+        [routerLink]="packService.hasAvailablePack() ? '/proto/pack-opening' : null"
+        routerLinkActive="top-nav__item--active"
+        [attr.aria-disabled]="!packService.hasAvailablePack()">Open Pack</a>
       <a class="top-nav__item" routerLink="/proto/profile"
         routerLinkActive="top-nav__item--active">Profile</a>
     </div>
@@ -35,16 +41,32 @@
         1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4
         4H9v-2h6v2zm4-8H9V5h10v2z"/>
     </svg>
-    <span class="bottom-nav__label">Collection</span>
+    <span class="bottom-nav__label">My Collection</span>
   </a>
 
-  <a class="bottom-nav__item" routerLink="/proto/pack-opening"
+  <a class="bottom-nav__item" routerLink="/proto/collection/tupinamba"
     routerLinkActive="bottom-nav__item--active">
+    <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12
+        2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0
+        1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55
+        0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8
+        3.97-2.1 5.39z"/>
+    </svg>
+    <span class="bottom-nav__label">Nations</span>
+  </a>
+
+  <a class="bottom-nav__item bottom-nav__item--open-pack"
+    [class.bottom-nav__item--pack-ready]="packService.hasAvailablePack()"
+    [class.bottom-nav__item--pack-spent]="!packService.hasAvailablePack()"
+    [routerLink]="packService.hasAvailablePack() ? '/proto/pack-opening' : null"
+    routerLinkActive="bottom-nav__item--active"
+    [attr.aria-disabled]="!packService.hasAvailablePack()">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0
         4 5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z"/>
     </svg>
-    <span class="bottom-nav__label">Packs</span>
+    <span class="bottom-nav__label">Open Pack</span>
   </a>
 
   <a class="bottom-nav__item" routerLink="/proto/profile"

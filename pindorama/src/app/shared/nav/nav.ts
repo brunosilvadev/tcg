@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { PackService } from '../../proto/services/pack.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,4 +8,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './nav.html',
   styleUrl: './nav.scss',
 })
-export class NavComponent {}
+export class NavComponent {
+  readonly packService = inject(PackService);
+}

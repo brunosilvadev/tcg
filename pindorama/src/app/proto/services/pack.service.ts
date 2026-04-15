@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { Card } from '../models/card.model';
 
 export interface PackOpeningResult {
@@ -77,11 +77,16 @@ const BOOSTER_CARDS: Card[] = [
 
 @Injectable({ providedIn: 'root' })
 export class PackService {
+  readonly hasAvailablePack = signal(true);
+
   openPack(packId: string): Observable<PackOpeningResult> {
     return of({
       packId,
       setName: 'TUP-1: The First Peoples',
       cards: BOOSTER_CARDS,
-    }).pipe(delay(200));
+    }).pipe(
+      delay(200),
+      tap(() => this.hasAvailablePack.set(false)),
+    );
   }
 }
