@@ -1,6 +1,7 @@
 $obsidian:  #0e0b08;
 $bark:      #1a1208;
 $gold:      #d4a017;
+$gold-bright: #f0c040;
 $gold-dim:  #a07810;
 $ash:       #7a6a55;
 $parchment: #f5e6c8;
@@ -49,51 +50,6 @@ $desktop:       800px;
     color: $parchment;
     letter-spacing: 0.04em;
     font-weight: normal;
-  }
-}
-
-// ── Quick actions ─────────────────────────────────────────────
-
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
-}
-
-.quick-action {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.85rem 0.5rem;
-  background: rgba($gold, 0.05);
-  border: 1px solid rgba($gold, 0.14);
-  border-radius: 10px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-
-  &:hover {
-    background: rgba($gold, 0.1);
-    border-color: rgba($gold, 0.28);
-  }
-
-  &__icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: $gold;
-    display: flex;
-
-    svg { width: 100%; height: 100%; }
-  }
-
-  &__label {
-    font-size: 0.7rem;
-    color: rgba($parchment, 0.7);
-    letter-spacing: 0.04em;
-    text-align: center;
-    line-height: 1.3;
   }
 }
 
@@ -210,19 +166,150 @@ $desktop:       800px;
 
 .streak-badge {
   display: flex;
-  align-items: baseline;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.3rem;
 
-  &__flame  { font-size: 1rem; line-height: 1; }
-  &__count  { font-size: 1.15rem; color: $gold; font-weight: bold; }
+  &__bolt {
+    width: 1rem;
+    height: 1rem;
+    color: $gold;
+    display: flex;
+    filter: drop-shadow(0 0 4px rgba($gold, 0.55));
+
+    svg { width: 100%; height: 100%; }
+  }
+  &__count  { font-size: 1.15rem; color: $gold; font-weight: bold; line-height: 1; }
   &__label  { font-size: 0.7rem; color: $ash; }
 }
 
-.streak-sub {
-  font-size: 0.78rem;
-  color: rgba($parchment, 0.45);
-  font-style: italic;
-  margin-top: -0.2rem;
+// ── Gem flames ────────────────────────────────────────────────
+
+.gem-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.35rem auto 0.25rem;
+}
+
+.gem-flame {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: rgba($parchment, 0.12);
+  stroke: rgba($gold, 0.3);
+  stroke-width: 1;
+  fill: currentColor;
+  transition: color 0.35s ease, stroke 0.35s ease, filter 0.35s ease;
+
+  &--filled {
+    color: $gold;
+    stroke: rgba($gold-bright, 0.9);
+    filter: drop-shadow(0 0 4px rgba($gold, 0.6));
+    animation: gem-flame-pulse 2.2s ease-in-out infinite;
+  }
+
+  &--ready {
+    color: $gold-bright;
+    stroke: rgba($parchment, 0.85);
+    filter: drop-shadow(0 0 6px rgba($gold-bright, 0.85));
+    animation: gem-flame-ready-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+// Cascade so left-to-right filling stays visually coherent even
+// when a later state overrides (ready trumps filled).
+.gem-flame--ready.gem-flame--filled,
+.gem-flame--ready {
+  color: $gold-bright;
+}
+
+@keyframes gem-flame-pulse {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba($gold, 0.45)); }
+  50%      { filter: drop-shadow(0 0 7px rgba($gold, 0.8)); }
+}
+
+// Celebration — quick left-to-right pulse when every quest is done
+.gem-row--celebrate .gem-flame {
+  animation: gem-flame-celebrate 0.55s ease-out both;
+
+  &:nth-child(1) { animation-delay: 0s;    }
+  &:nth-child(2) { animation-delay: 0.08s; }
+  &:nth-child(3) { animation-delay: 0.16s; }
+  &:nth-child(4) { animation-delay: 0.24s; }
+  &:nth-child(5) { animation-delay: 0.32s; }
+}
+
+@keyframes gem-flame-celebrate {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.35);
+    color: $gold-bright;
+    stroke: rgba($parchment, 0.9);
+    filter: drop-shadow(0 0 14px rgba($gold-bright, 1));
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes gem-flame-ready-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba($gold-bright, 0.75));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba($gold-bright, 1));
+    transform: scale(1.08);
+  }
+}
+
+.pack-ready {
+  text-align: center;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $gold-bright;
+  text-shadow: 0 0 10px rgba($gold-bright, 0.6);
+  margin-top: -0.1rem;
+  animation: pack-ready-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pack-ready-pulse {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+
+// ── Booster card — ready state glow ───────────────────────────
+
+.home-card--booster-ready {
+  cursor: pointer;
+  border-color: rgba($gold-bright, 0.55);
+  box-shadow: 0 0 0 1px rgba($gold-bright, 0.15),
+              0 0 24px rgba($gold-bright, 0.18);
+  animation: booster-card-glow 2.4s ease-in-out infinite;
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgba($gold-bright, 0.75);
+    box-shadow: 0 0 0 1px rgba($gold-bright, 0.25),
+                0 0 32px rgba($gold-bright, 0.3);
+  }
+
+  &:focus-visible { outline: none; }
+}
+
+@keyframes booster-card-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 1px rgba($gold-bright, 0.15),
+                0 0 18px rgba($gold-bright, 0.18);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba($gold-bright, 0.25),
+                0 0 30px rgba($gold-bright, 0.32);
+  }
 }
 
 .task-list {
@@ -240,6 +327,21 @@ $desktop:       800px;
     color: rgba($parchment, 0.45);
 
     &--done { color: rgba($parchment, 0.75); }
+
+    &--action {
+      cursor: pointer;
+      border-radius: 4px;
+      padding: 0.1rem 0.25rem;
+      margin: -0.1rem -0.25rem;
+      transition: color 0.15s, background 0.15s;
+
+      &:hover,
+      &:focus-visible {
+        color: $parchment;
+        background: rgba($gold, 0.06);
+        outline: none;
+      }
+    }
   }
 
   &__check {
@@ -341,7 +443,42 @@ $desktop:       800px;
   border: 1px solid rgba($jade, 0.35);
   padding: 0.18rem 0.55rem;
   border-radius: 20px;
-  align-self: flex-start;
+}
+
+.fact-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.fact-cta {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba($gold, 0.7);
+  transition: color 0.15s, transform 0.15s;
+}
+
+.fact-link {
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    border-color: rgba($gold, 0.32);
+    background: rgba($gold, 0.05);
+
+    .fact-cta {
+      color: $gold;
+      transform: translateX(2px);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba($gold, 0.5);
+    outline-offset: 2px;
+  }
 }
 
 // ── Desktop overrides (must come after all base rules) ────────
@@ -356,7 +493,6 @@ $desktop:       800px;
     grid-template-areas:
       "greeting  greeting"
       "progress  progress"
-      "actions   actions"
       "booster   bestcard"
       "fact      fact";
     gap: 1.25rem;
@@ -368,19 +504,9 @@ $desktop:       800px;
     &__name { font-size: clamp(2rem, 3vw, 2.75rem); }
   }
   .home-card--prominent   { grid-area: progress; }
-  .quick-actions          { grid-area: actions; display: flex; gap: 0.75rem; }
   .home-card--booster     { grid-area: booster;   align-self: stretch; }
   .home-card--best-card   { grid-area: bestcard;  align-self: stretch; }
   .home-card--fact        { grid-area: fact; }
-
-  .quick-action {
-    flex: unset;
-    flex-direction: row;
-    padding: 0.6rem 1.2rem;
-    gap: 0.55rem;
-    border-radius: 8px;
-    &__label { font-size: 0.78rem; }
-  }
 
   .best-card__thumb { width: min(120px, 28vw); }
 }

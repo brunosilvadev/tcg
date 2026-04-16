@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Card } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
@@ -12,6 +13,8 @@ import { NavComponent } from '../../shared/nav/nav';
   styleUrl: './home.scss',
 })
 export class HomeComponent {
+  private readonly router = inject(Router);
+
   readonly username = 'Adventurer';
 
   readonly collection = {
@@ -29,15 +32,37 @@ export class HomeComponent {
 
   readonly booster = {
     streakDays: 7,
-    streakGoalDays: 10,
-    streakProgress: 70,
-    daysToNextPack: 3,
-    tasks: [
-      { label: 'Logged in today', done: true  },
-      { label: 'Viewed a card',   done: true  },
-      { label: 'Open a pack',     done: false },
-    ],
+    gemCount: 3,
+    gemTotal: 5,
+    hasPackAvailable: false,
   };
+
+  readonly gemSlots = [0, 1, 2, 3, 4];
+
+  // ── Daily quests — in-memory signals, no API ──────────────────
+  // "Log in today" auto-completes on page load.
+  readonly loginQuestDone    = signal(true);
+  readonly viewCardQuestDone = signal(false);
+  readonly factQuestDone     = signal(false);
+
+  readonly allQuestsDone = computed(() =>
+    this.loginQuestDone() && this.viewCardQuestDone() && this.factQuestDone()
+  );
+
+  onBoosterCardClick(): void {
+    if (this.booster.hasPackAvailable) {
+      this.router.navigateByUrl('/proto/pack-opening');
+    }
+  }
+
+  onViewCardQuest(): void {
+    this.viewCardQuestDone.set(true);
+    this.router.navigateByUrl('/proto/collection');
+  }
+
+  onFactQuest(): void {
+    this.factQuestDone.set(true);
+  }
 
   readonly bestCard: Card = {
     id: 1,
@@ -55,5 +80,6 @@ export class HomeComponent {
   readonly factOfDay = {
     text: 'The Tupinambá were one of the most widespread indigenous peoples of coastal Brazil, known for their fierce resistance to colonization and the rich oral traditions that shaped Brazilian folklore for centuries.',
     tag: 'Culture',
+    link: 'https://en.wikipedia.org/wiki/Tupinamba_people',
   };
 }

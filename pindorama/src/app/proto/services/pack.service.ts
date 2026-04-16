@@ -61,6 +61,18 @@ const BOOSTER_CARDS: Card[] = [
     artistName: 'L. Ferreira',
   },
   {
+    id: 7,
+    name: 'Boitatá',
+    type: 'Creature',
+    rarity: 'uncommon',
+    cardNumber: 7,
+    collectionSize: 45,
+    collection: 'TUP-1: The First Peoples',
+    imageUrl: 'https://placehold.co/280x244/000d1a/52b788',
+    flavorText:
+      'A serpent of living fire, born from the floods of ages past. It hunts those who set the fields to burn.',
+  },
+  {
     id: 1,
     name: 'Tupã',
     type: 'Deity',

@@ -178,10 +178,13 @@ $bark:      #1c1208;
 // ── Cards row ─────────────────────────────────────────────────
 .cards-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.4rem, 2vw, 1rem);
+  gap: clamp(0.4rem, 2vw, 1rem) clamp(0.4rem, 2vw, 1rem);
   perspective: 1200px;
+  width: 100%;
+  max-width: min(900px, 95vw);
 }
 
 .card-slot {
