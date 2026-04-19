@@ -1,7 +1,7 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { Card, Rarity } from '../models/card.model';
-import { MOCK_CARDS } from './mock-cards';
+import { CardService } from '../services/card.service';
 import { CardComponent } from './card/card';
 import { CardLightboxComponent } from './card-lightbox/card-lightbox';
 import { FooterComponent } from '../../shared/footer/footer';
@@ -13,8 +13,10 @@ import { NavComponent } from '../../shared/nav/nav';
   templateUrl: './cards.html',
   styleUrl: './cards.scss',
 })
-export class CardsPageComponent {
-  readonly allCards: Card[] = MOCK_CARDS;
+export class CardsPageComponent implements OnInit {
+  private readonly cardService = inject(CardService);
+
+  readonly allCards = signal<Card[]>([]);
   selectedCard: Card | null = null;
 
   readonly rarities: { value: Rarity; label: string }[] = [
@@ -34,13 +36,17 @@ export class CardsPageComponent {
   readonly filteredCards = computed(() => {
     const active = this.activeRarities();
     const q      = this.searchQuery().trim().toLowerCase();
-    return this.allCards.filter(c => {
+    return this.allCards().filter(c => {
       const passesRarity = active.size === 0 || active.has(c.rarity);
       const passesSearch = !q || c.name.toLowerCase().includes(q)
                                || c.type.toLowerCase().includes(q);
       return passesRarity && passesSearch;
     });
   });
+
+  ngOnInit(): void {
+    this.cardService.getAll().subscribe(cards => this.allCards.set(cards));
+  }
 
   toggleRarity(rarity: Rarity): void {
     this.activeRarities.update(set => {
@@ -66,7 +72,7 @@ export class CardsPageComponent {
     this.selectedCard = null;
   }
 
-  trackById(_: number, card: Card): number {
+  trackById(_: number, card: Card): string {
     return card.id;
   }
 }

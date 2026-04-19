@@ -13,24 +13,24 @@
     <!-- ── Collection progress ────────────────────────────── -->
     <section class="home-card home-card--prominent">
       <p class="home-card__eyebrow">Collection Progress</p>
-      <p class="home-card__title">{{ collection.name }}</p>
+      <p class="home-card__title">{{ collection().name }}</p>
 
       <div class="collection-fraction">
-        <span class="collection-fraction__owned">{{ collection.owned }}</span>
+        <span class="collection-fraction__owned">{{ collection().owned }}</span>
         <span class="collection-fraction__sep">/</span>
-        <span class="collection-fraction__total">{{ collection.total }}</span>
+        <span class="collection-fraction__total">{{ collection().total }}</span>
       </div>
-      <p class="collection-missing">{{ collection.missing }} cards missing</p>
+      <p class="collection-missing">{{ collection().missing }} cards missing</p>
 
       <mat-progress-bar
         class="progress-bar progress-bar--jade"
         mode="determinate"
-        [value]="collection.progress">
+        [value]="collection().progress">
       </mat-progress-bar>
 
       <div class="rarity-chips">
         <span
-          *ngFor="let r of collection.rarities"
+          *ngFor="let r of collection().rarities"
           class="rarity-chip rarity-chip--{{ r.rarity }}">
           {{ r.label }} · {{ r.owned }}/{{ r.total }}
         </span>
@@ -40,13 +40,13 @@
     <!-- ── Next booster pack ──────────────────────────────── -->
     <section
       class="home-card home-card--booster"
-      [class.home-card--booster-ready]="booster.hasPackAvailable"
+      [class.home-card--booster-ready]="booster().hasPackAvailable"
       (click)="onBoosterCardClick()"
       (keydown.enter)="onBoosterCardClick()"
       (keydown.space)="onBoosterCardClick()"
-      [attr.role]="booster.hasPackAvailable ? 'button' : null"
-      [attr.tabindex]="booster.hasPackAvailable ? 0 : null"
-      [attr.aria-label]="booster.hasPackAvailable ? 'Open your booster pack' : null">
+      [attr.role]="booster().hasPackAvailable ? 'button' : null"
+      [attr.tabindex]="booster().hasPackAvailable ? 0 : null"
+      [attr.aria-label]="booster().hasPackAvailable ? 'Open your booster pack' : null">
       <div class="streak-header">
         <p class="home-card__eyebrow">Next Booster Pack</p>
         <div class="streak-badge">
@@ -55,7 +55,7 @@
               <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>
             </svg>
           </span>
-          <span class="streak-badge__count">{{ booster.streakDays }}</span>
+          <span class="streak-badge__count">{{ booster().streakDays }}</span>
           <span class="streak-badge__label">day streak</span>
         </div>
       </div>
@@ -67,15 +67,15 @@
         @for (i of gemSlots; track i) {
           <svg
             class="gem-flame"
-            [class.gem-flame--filled]="i < booster.gemCount"
-            [class.gem-flame--ready]="booster.hasPackAvailable"
+            [class.gem-flame--filled]="i < booster().gemCount"
+            [class.gem-flame--ready]="booster().hasPackAvailable"
             viewBox="0 0 24 24"
             aria-hidden="true">
             <path d="M12 2 C 9 6, 6 9, 6 14 C 6 17.5, 8.5 20, 12 20 C 15.5 20, 18 17.5, 18 14 C 18 11, 16 9, 14 7 C 14 9, 13 10, 12 10 C 12 8, 13 5, 12 2 Z" />
           </svg>
         }
       </div>
-      @if (booster.hasPackAvailable) {
+      @if (booster().hasPackAvailable) {
         <p class="pack-ready">Pack ready!</p>
       }
 

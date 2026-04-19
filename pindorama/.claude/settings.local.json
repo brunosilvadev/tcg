@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npx ng:*)",
       "Bash(npm show:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Read(//c/git/tcg-api/**)",
+      "Bash(dotnet build:*)"
     ]
   }
 }

@@ -3,7 +3,6 @@ import {
   signal,
   computed,
   inject,
-  OnInit,
   OnDestroy,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -143,7 +142,7 @@ type Phase = 'sealed' | 'tearing' | 'shaking' | 'torn' | 'erupting' | 'revealing
     ]),
   ],
 })
-export class PackOpeningComponent implements OnInit, OnDestroy {
+export class PackOpeningComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly packService = inject(PackService);
 
@@ -163,6 +162,7 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
   // ── Drag internals ────────────────────────────────────────
   private isTearDragging = false;
   private timers: ReturnType<typeof setTimeout>[] = [];
+  private packResultPromise: Promise<void> | null = null;
 
   // ── Computed ──────────────────────────────────────────────
   readonly showPack = computed(() => {
@@ -190,12 +190,6 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
   });
 
   // ── Lifecycle ─────────────────────────────────────────────
-  ngOnInit(): void {
-    this.packService.openPack('booster-tup1').subscribe((result) => {
-      this.cards.set(result.cards);
-    });
-  }
-
   ngOnDestroy(): void {
     this.timers.forEach((t) => clearTimeout(t));
   }
@@ -258,6 +252,18 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
     this.phase.set('torn');
     this.showBurst.set(true);
 
+    // Fire the API now — the 1.5s of torn + erupting covers the network round-trip,
+    // and revealCards() will await this before starting the reveal sequence.
+    this.packResultPromise = new Promise((resolve, reject) => {
+      this.packService.openPack().subscribe({
+        next: (result) => {
+          this.cards.set(result.cards);
+          resolve();
+        },
+        error: (err) => reject(err),
+      });
+    });
+
     this.defer(() => {
       this.phase.set('erupting');
 
@@ -271,6 +277,15 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
 
   // ── Card reveal sequence ──────────────────────────────────
   private async revealCards(): Promise<void> {
+    // If the API is still in flight, hold the reveal until cards are in hand.
+    if (this.packResultPromise) {
+      try {
+        await this.packResultPromise;
+      } catch {
+        return;
+      }
+    }
+
     const list = this.cards();
 
     for (let i = 0; i < list.length; i++) {
@@ -325,7 +340,7 @@ export class PackOpeningComponent implements OnInit, OnDestroy {
   }
 
   // ── Helpers ───────────────────────────────────────────────
-  trackById(_: number, card: Card): number {
+  trackById(_: number, card: Card): string {
     return card.id;
   }
 

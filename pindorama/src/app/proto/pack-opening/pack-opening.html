@@ -70,9 +70,18 @@
     <div
       *ngFor="let card of cards(); let i = index; trackBy: trackById"
       class="card-slot"
+      [class.card-slot--repeat]="card.isRepeat"
       [@cardErupt]="{ value: 'in', params: { delay: i * 120, rot: (i - 2) * 12 } }"
       [@rareGlow]="glowState(i)">
       <app-card [card]="card" [isFlipped]="!isRevealed(i)" (clicked)="openLightbox(card, i)"></app-card>
+      @if (card.isRepeat && isRevealed(i)) {
+        <span class="repeat-badge" aria-label="Duplicate card">
+          <svg class="repeat-badge__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 7h10v3l5-4-5-4v3H5v6h2V7zm10 10H7v-3l-5 4 5 4v-3h12v-6h-2v4z"/>
+          </svg>
+          <span class="repeat-badge__text">Duplicate</span>
+        </span>
+      }
     </div>
   </div>
 

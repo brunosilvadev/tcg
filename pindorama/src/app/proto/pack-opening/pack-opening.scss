@@ -188,12 +188,65 @@ $bark:      #1c1208;
 }
 
 .card-slot {
+  position: relative;
   width: min(260px, 22vw);
   flex-shrink: 0;
   border-radius: 6px;
   cursor: pointer;
 
   app-card { display: block; }
+
+  // Duplicate pull — desaturated for this view only (collection view stays in colour).
+  &--repeat app-card {
+    filter: grayscale(1);
+  }
+
+  // Badge rides with the card's hover lift (see .card__frame hover in card.scss).
+  &:hover .repeat-badge {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+// Duplicate badge — sits above the grayscale filter so it keeps its colour.
+.repeat-badge {
+  position: absolute;
+  top: 14%;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.55rem;
+  font-family: 'Georgia', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $parchment;
+  background: linear-gradient(170deg, rgba($bark, 0.92), rgba(#0b0705, 0.92));
+  border: 1px solid rgba($gold, 0.45);
+  border-radius: 3px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba($parchment, 0.08);
+  pointer-events: none;
+  user-select: none;
+  transform-origin: top right;
+  transition: transform 0.2s ease;
+  animation: repeatBadgeIn 0.45s ease-out both;
+
+  &__icon {
+    width: 12px;
+    height: 12px;
+    color: rgba($gold, 0.85);
+  }
+
+  &__text {
+    line-height: 1;
+  }
+}
+
+@keyframes repeatBadgeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 // ── Done button ───────────────────────────────────────────────

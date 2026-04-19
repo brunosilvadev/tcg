@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavComponent } from '../../shared/nav/nav';
+import { CollectionService, CollectionDetail } from '../services/collection.service';
 
 export interface CollectionInfo {
   eyebrow:    string;
@@ -16,17 +17,15 @@ export interface CollectionInfo {
   }>;
 }
 
-const TUPINAMBA: CollectionInfo = {
+const TUPINAMBA_SLUG = 'tupinamba';
+
+const TUPINAMBA_FALLBACK: CollectionInfo = {
   eyebrow:    'Pindorama · Coleção I',
   name:       'Tupinambá',
   subtitle:   'Povo da costa atlântica',
   totalCards: 36,
-  owned:      24,
-  rarities: [
-    { label: 'Common',   owned: 16, total: 20, type: 'common'   },
-    { label: 'Uncommon', owned: 7,  total: 10, type: 'uncommon' },
-    { label: 'Rare',     owned: 1,  total: 6,  type: 'rare'     },
-  ],
+  owned:      0,
+  rarities: [],
 };
 
 @Component({
@@ -36,8 +35,10 @@ const TUPINAMBA: CollectionInfo = {
   templateUrl: './collection-landing.html',
   styleUrl:    './collection-landing.scss',
 })
-export class CollectionLandingComponent {
-  @Input() collection: CollectionInfo = TUPINAMBA;
+export class CollectionLandingComponent implements OnInit {
+  private readonly collectionService = inject(CollectionService);
+
+  readonly collection = signal<CollectionInfo>(TUPINAMBA_FALLBACK);
 
   readonly particles = [
     { left: '8%',  delay: '0s',   dur: '10s', isGold: true  },
@@ -50,7 +51,43 @@ export class CollectionLandingComponent {
     { left: '92%', delay: '4.3s', dur: '9s',  isGold: false },
   ];
 
+  ngOnInit(): void {
+    this.collectionService.getAll().subscribe(list => {
+      const match = list.find(c => c.slug === TUPINAMBA_SLUG);
+      if (!match) return;
+
+      this.collectionService.getById(match.id).subscribe(detail => {
+        this.collection.set(this.toCollectionInfo(detail));
+      });
+    });
+  }
+
   get progress(): number {
-    return (this.collection.owned / this.collection.totalCards) * 100;
+    const c = this.collection();
+    return c.totalCards === 0 ? 0 : (c.owned / c.totalCards) * 100;
+  }
+
+  private toCollectionInfo(detail: CollectionDetail): CollectionInfo {
+    const rarities = detail.rarityBreakdown
+      .filter(r => r.rarity.toLowerCase() !== 'legendary') // UI shows 3 tiers
+      .map(r => ({
+        label: this.capitalize(r.rarity),
+        owned: 0,
+        total: r.count,
+        type:  r.rarity.toLowerCase(),
+      }));
+
+    return {
+      eyebrow:    'Pindorama · Coleção I',
+      name:       detail.name,
+      subtitle:   detail.description ?? '',
+      totalCards: detail.totalCards,
+      owned:      0,
+      rarities,
+    };
+  }
+
+  private capitalize(v: string): string {
+    return v.length ? v.charAt(0).toUpperCase() + v.slice(1).toLowerCase() : v;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PackService } from '../../proto/services/pack.service';
 
@@ -8,6 +8,10 @@ import { PackService } from '../../proto/services/pack.service';
   templateUrl: './nav.html',
   styleUrl: './nav.scss',
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
   readonly packService = inject(PackService);
+
+  ngOnInit(): void {
+    this.packService.refreshStatus();
+  }
 }

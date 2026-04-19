@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NavComponent } from '../../shared/nav/nav';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +11,9 @@ import { NavComponent } from '../../shared/nav/nav';
   styleUrl: './profile.scss',
 })
 export class ProfileComponent {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   readonly username = 'Adventurer';
 
   currentPassword = '';
@@ -38,7 +43,7 @@ export class ProfileComponent {
   }
 
   logout(): void {
-    // TODO: wire to auth service
-    console.log('logout');
+    this.auth.logout();
+    this.router.navigateByUrl('/login');
   }
 }

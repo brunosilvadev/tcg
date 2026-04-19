@@ -1,37 +1,64 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
-interface AuthResponse {
-  token: string;
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  expiresAt: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly TOKEN_KEY = 'pindorama_token';
+  private readonly base = `${environment.apiUrl}/auth`;
 
-  signup(email: string, password: string): Observable<AuthResponse> {
+  private readonly ACCESS_KEY  = 'pindorama_access_token';
+  private readonly REFRESH_KEY = 'pindorama_refresh_token';
+
+  signup(email: string, username: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>('/api/auth/signup', { email, password })
-      .pipe(tap(res => localStorage.setItem(this.TOKEN_KEY, res.token)));
+      .post<AuthResponse>(`${this.base}/register`, { email, username, password })
+      .pipe(tap(res => this.storeTokens(res)));
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>('/api/auth/login', { email, password })
-      .pipe(tap(res => localStorage.setItem(this.TOKEN_KEY, res.token)));
+      .post<AuthResponse>(`${this.base}/login`, { email, password })
+      .pipe(tap(res => this.storeTokens(res)));
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getToken();
+  refresh(): Observable<AuthResponse> {
+    const refreshToken = this.getRefreshToken();
+    return this.http
+      .post<AuthResponse>(`${this.base}/refresh`, { refreshToken })
+      .pipe(tap(res => this.storeTokens(res)));
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
+    this.clearTokens();
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem(this.ACCESS_KEY);
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem(this.REFRESH_KEY);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getAccessToken();
+  }
+
+  private storeTokens(res: AuthResponse): void {
+    localStorage.setItem(this.ACCESS_KEY,  res.accessToken);
+    localStorage.setItem(this.REFRESH_KEY, res.refreshToken);
+  }
+
+  private clearTokens(): void {
+    localStorage.removeItem(this.ACCESS_KEY);
+    localStorage.removeItem(this.REFRESH_KEY);
   }
 }

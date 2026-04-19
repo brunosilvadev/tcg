@@ -53,7 +53,10 @@ export class SignupComponent {
 
     this.submitting.set(true);
 
-    this.auth.signup(this.email.trim(), this.password).subscribe({
+    const email = this.email.trim();
+    const username = email.split('@')[0];
+
+    this.auth.signup(email, username, this.password).subscribe({
       next: () => this.router.navigateByUrl('/proto/home'),
       error: () => {
         this.serverError.set('Something went wrong. Please try again.');
