@@ -18,6 +18,12 @@
         [attr.aria-disabled]="!packService.hasAvailablePack()">Open Pack</a>
       <a class="top-nav__item" routerLink="/proto/profile"
         routerLinkActive="top-nav__item--active">Profile</a>
+      <span class="top-nav__gems" aria-label="Daily gems progress">
+        <svg class="top-nav__gems-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2 3 9l9 13 9-13-9-7zm0 2.5L18.5 9 12 17 5.5 9 12 4.5z"/>
+        </svg>
+        <span class="top-nav__gems-count">{{ gems() }}/{{ gemsGoal() }}</span>
+      </span>
     </div>
   </div>
 </nav>
@@ -79,3 +85,11 @@
   </a>
 
 </nav>
+
+<!-- Mobile gem indicator floats at the top so nav stays compact -->
+<div class="gem-indicator" aria-label="Daily gems progress">
+  <svg class="gem-indicator__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2 3 9l9 13 9-13-9-7zm0 2.5L18.5 9 12 17 5.5 9 12 4.5z"/>
+  </svg>
+  <span class="gem-indicator__count">{{ gems() }}/{{ gemsGoal() }}</span>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { Card, Rarity } from '../models/card.model';
 import { CardService } from '../services/card.service';
+import { GemsService } from '../services/gems.service';
 import { CardComponent } from './card/card';
 import { CardLightboxComponent } from './card-lightbox/card-lightbox';
 import { FooterComponent } from '../../shared/footer/footer';
@@ -15,6 +16,7 @@ import { NavComponent } from '../../shared/nav/nav';
 })
 export class CardsPageComponent implements OnInit {
   private readonly cardService = inject(CardService);
+  private readonly gemsService = inject(GemsService);
 
   readonly allCards = signal<Card[]>([]);
   selectedCard: Card | null = null;
@@ -66,6 +68,8 @@ export class CardsPageComponent implements OnInit {
 
   openLightbox(card: Card): void {
     this.selectedCard = card;
+    // Daily "view a card" gem task — fire once per open. Service handles de-dupe by day.
+    this.gemsService.completeViewCardTask().subscribe();
   }
 
   closeLightbox(): void {

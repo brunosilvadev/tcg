@@ -7,6 +7,11 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   expiresAt: string;
+  gems?: number;
+  gemsGoal?: number;
+  gemAwarded?: boolean;
+  packAwarded?: boolean;
+  boosterPacksAvailable?: number;
 }
 
 @Injectable({ providedIn: 'root' })

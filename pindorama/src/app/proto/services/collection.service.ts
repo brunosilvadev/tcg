@@ -23,6 +23,20 @@ export interface CollectionDetail extends CollectionSummary {
   rarityBreakdown: RarityCount[];
 }
 
+export interface RarityProgress {
+  rarity: string;
+  owned: number;
+  total: number;
+}
+
+export interface CollectionProgress {
+  collectionId: string;
+  owned: number;
+  total: number;
+  missing: number;
+  rarityBreakdown: RarityProgress[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class CollectionService {
   private readonly http = inject(HttpClient);
@@ -34,6 +48,10 @@ export class CollectionService {
 
   getById(id: string): Observable<CollectionDetail> {
     return this.http.get<CollectionDetail>(`${this.base}/${id}`);
+  }
+
+  getProgress(id: string): Observable<CollectionProgress> {
+    return this.http.get<CollectionProgress>(`${this.base}/${id}/progress`);
   }
 
   getCards(collectionId: string, ctx?: { collectionName?: string; totalCards?: number }): Observable<Card[]> {

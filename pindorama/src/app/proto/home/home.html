@@ -64,10 +64,10 @@
       <div
         class="gem-row"
         [class.gem-row--celebrate]="allQuestsDone()">
-        @for (i of gemSlots; track i) {
+        @for (i of gemSlots(); track i) {
           <svg
             class="gem-flame"
-            [class.gem-flame--filled]="i < booster().gemCount"
+            [class.gem-flame--filled]="i < gems()"
             [class.gem-flame--ready]="booster().hasPackAvailable"
             viewBox="0 0 24 24"
             aria-hidden="true">
@@ -145,23 +145,25 @@
     </section>
 
     <!-- ── Best card from last pack ───────────────────────── -->
-    <section class="home-card home-card--best-card">
-      <p class="home-card__eyebrow">Best Card — Last Pack</p>
-      <div class="best-card">
-        <div class="best-card__thumb">
-          <app-card [card]="bestCard" [flipEnabled]="false"></app-card>
+    @if (bestCard(); as bc) {
+      <section class="home-card home-card--best-card">
+        <p class="home-card__eyebrow">Best Card — Last Pack</p>
+        <div class="best-card">
+          <div class="best-card__thumb">
+            <app-card [card]="bc" [flipEnabled]="false"></app-card>
+          </div>
+          <div class="best-card__info">
+            <p class="best-card__name">{{ bc.name }}</p>
+            <p class="best-card__nation">{{ bc.collection }}</p>
+            <p class="best-card__type">{{ bc.type }}</p>
+            <span class="best-card__rarity best-card__rarity--{{ bc.rarity }}">
+              {{ bc.rarity }}
+            </span>
+            <a class="best-card__link" routerLink="/proto/cards">View in collection →</a>
+          </div>
         </div>
-        <div class="best-card__info">
-          <p class="best-card__name">{{ bestCard.name }}</p>
-          <p class="best-card__nation">{{ bestCard.collection }}</p>
-          <p class="best-card__type">{{ bestCard.type }}</p>
-          <span class="best-card__rarity best-card__rarity--{{ bestCard.rarity }}">
-            {{ bestCard.rarity }}
-          </span>
-          <a class="best-card__link" routerLink="/proto/cards">View in collection →</a>
-        </div>
-      </div>
-    </section>
+      </section>
+    }
 
     <!-- ── Fact of the day ────────────────────────────────── -->
     <a

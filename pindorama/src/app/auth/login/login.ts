@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { GemsService } from '../../proto/services/gems.service';
 import { ArakuPytxaComponent } from '../../araku-pytxa.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { ArakuPytxaComponent } from '../../araku-pytxa.component';
 })
 export class LoginComponent {
   private readonly auth = inject(AuthService);
+  private readonly gems = inject(GemsService);
   private readonly router = inject(Router);
 
   email = '';
@@ -45,7 +47,10 @@ export class LoginComponent {
     this.submitting.set(true);
 
     this.auth.login(this.email.trim(), this.password).subscribe({
-      next: () => this.router.navigateByUrl('/proto/home'),
+      next: res => {
+        this.gems.applyLoginResult(res);
+        this.router.navigateByUrl('/proto/home');
+      },
       error: () => {
         this.serverError.set('Invalid email or password.');
         this.submitting.set(false);

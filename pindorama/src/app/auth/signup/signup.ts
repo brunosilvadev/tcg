@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { GemsService } from '../../proto/services/gems.service';
 import { ArakuPytxaComponent } from '../../araku-pytxa.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { ArakuPytxaComponent } from '../../araku-pytxa.component';
 })
 export class SignupComponent {
   private readonly auth = inject(AuthService);
+  private readonly gems = inject(GemsService);
   private readonly router = inject(Router);
 
   email = '';
@@ -57,7 +59,10 @@ export class SignupComponent {
     const username = email.split('@')[0];
 
     this.auth.signup(email, username, this.password).subscribe({
-      next: () => this.router.navigateByUrl('/proto/home'),
+      next: res => {
+        this.gems.applyLoginResult(res);
+        this.router.navigateByUrl('/proto/home');
+      },
       error: () => {
         this.serverError.set('Something went wrong. Please try again.');
         this.submitting.set(false);

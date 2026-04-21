@@ -2,10 +2,16 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ApiCard } from '../models/card.model';
 
 export interface BoosterStatusTask {
   task: string;
   completed: boolean;
+}
+
+export interface LastPackBestCard extends ApiCard {
+  packOpenId: string;
+  openedAt: string;
 }
 
 export interface BoosterStatus {
@@ -17,6 +23,7 @@ export interface BoosterStatus {
     totalPacksOpened: number;
     totalCardsCollected: number;
   };
+  lastPackBestCard: LastPackBestCard | null;
 }
 
 @Injectable({ providedIn: 'root' })
