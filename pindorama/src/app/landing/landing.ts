@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WaitlistService } from '../waitlist';
@@ -21,9 +21,9 @@ interface Particle {
 })
 export class LandingComponent {
   email = '';
-  notified = false;
-  submitting = false;
-  error = '';
+  readonly notified = signal(false);
+  readonly submitting = signal(false);
+  readonly error = signal('');
 
   particles: Particle[] = Array.from({ length: 30 }, () => ({
     x: Math.random() * 100,
@@ -42,28 +42,28 @@ export class LandingComponent {
 
   onNotify(event: Event): void {
     event.preventDefault();
-    if (this.submitting) return;
+    if (this.submitting()) return;
 
     const email = this.email.trim();
 
     if (!this.isValidEmail(email)) {
-      this.error = 'Please enter a valid email address.';
+      this.error.set('Please enter a valid email address.');
       return;
     }
 
-    this.submitting = true;
-    this.error = '';
+    this.submitting.set(true);
+    this.error.set('');
 
     this.waitlist.join(email).subscribe({
       next: () => {
-        this.notified = true;
+        this.notified.set(true);
         this.email = '';
-        this.submitting = false;
+        this.submitting.set(false);
         this.notify.show('success', 'You\'re on the list! We\'ll be in touch.');
       },
       error: () => {
-        this.error = 'Something went wrong. Please try again.';
-        this.submitting = false;
+        this.error.set('Something went wrong. Please try again.');
+        this.submitting.set(false);
         this.notify.show('error', 'Something went wrong. Please try again.');
       }
     });

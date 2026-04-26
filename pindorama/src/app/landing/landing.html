@@ -87,14 +87,14 @@
 
   <!-- Notify CTA -->
   <section class="notify" id="notify">
-    <div class="notify__box" [class.notify__box--success]="notified">
+    <div class="notify__box" [class.notify__box--success]="notified()">
       <div class="notify__corner notify__corner--tl"></div>
       <div class="notify__corner notify__corner--tr"></div>
       <div class="notify__corner notify__corner--bl"></div>
       <div class="notify__corner notify__corner--br"></div>
 
       <!-- Default state -->
-      <ng-container *ngIf="!notified">
+      <ng-container *ngIf="!notified()">
         <p class="notify__label">The first collection is being forged</p>
         <h2 class="notify__title">Be the first to answer the call</h2>
         <form class="notify__form" (submit)="onNotify($event)">
@@ -104,18 +104,18 @@
             placeholder="your@email.com"
             [(ngModel)]="email"
             name="email"
-            [disabled]="submitting"
+            [disabled]="submitting()"
           />
-          <button class="notify__btn" type="submit" [disabled]="submitting">
-            <span *ngIf="!submitting">Notify Me</span>
-            <span *ngIf="submitting" class="notify__spinner"></span>
+          <button class="notify__btn" type="submit" [disabled]="submitting()">
+            <span *ngIf="!submitting()">Notify Me</span>
+            <span *ngIf="submitting()" class="notify__spinner"></span>
           </button>
         </form>
-        <p class="notify__error" *ngIf="error">⚠ {{ error }}</p>
+        <p class="notify__error" *ngIf="error()">⚠ {{ error() }}</p>
       </ng-container>
 
       <!-- Success state -->
-      <div class="notify__success" *ngIf="notified">
+      <div class="notify__success" *ngIf="notified()">
         <div class="notify__success-glyph">✦</div>
         <h2 class="notify__success-title">The spirits have heard you.</h2>
         <p class="notify__success-body">You will be among the first to receive word when Pindorama opens its gates.</p>
