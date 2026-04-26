@@ -151,9 +151,10 @@ $desktop:       800px;
   border: 1px solid;
   white-space: nowrap;
 
-  &--common   { color: #9ca3af; border-color: rgba(#9ca3af, 0.4); background: rgba(#9ca3af, 0.08); }
-  &--uncommon { color: $jade;   border-color: rgba($jade, 0.4);   background: rgba($jade, 0.08);   }
-  &--rare     { color: $gold;   border-color: rgba($gold, 0.4);   background: rgba($gold, 0.08);   }
+  &--common    { color: #9ca3af; border-color: rgba(#9ca3af, 0.4); background: rgba(#9ca3af, 0.08); }
+  &--uncommon  { color: $jade;   border-color: rgba($jade, 0.4);   background: rgba($jade, 0.08);   }
+  &--rare      { color: $gold;   border-color: rgba($gold, 0.4);   background: rgba($gold, 0.08);   }
+  &--legendary { color: #c4b5fd; border-color: rgba(#c4b5fd, 0.4); background: rgba(#c4b5fd, 0.08); }
 }
 
 // ── Booster / streak ──────────────────────────────────────────
@@ -182,9 +183,9 @@ $desktop:       800px;
   &__label  { font-size: 0.7rem; color: $ash; }
 }
 
-// ── Gem flames ────────────────────────────────────────────────
+// ── Flames ────────────────────────────────────────────────────
 
-.gem-row {
+.flame-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +193,7 @@ $desktop:       800px;
   margin: 0.35rem auto 0.25rem;
 }
 
-.gem-flame {
+.flame-icon {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
@@ -206,32 +207,32 @@ $desktop:       800px;
     color: $gold;
     stroke: rgba($gold-bright, 0.9);
     filter: drop-shadow(0 0 4px rgba($gold, 0.6));
-    animation: gem-flame-pulse 2.2s ease-in-out infinite;
+    animation: flame-pulse 2.2s ease-in-out infinite;
   }
 
   &--ready {
     color: $gold-bright;
     stroke: rgba($parchment, 0.85);
     filter: drop-shadow(0 0 6px rgba($gold-bright, 0.85));
-    animation: gem-flame-ready-pulse 1.4s ease-in-out infinite;
+    animation: flame-ready-pulse 1.4s ease-in-out infinite;
   }
 }
 
 // Cascade so left-to-right filling stays visually coherent even
 // when a later state overrides (ready trumps filled).
-.gem-flame--ready.gem-flame--filled,
-.gem-flame--ready {
+.flame-icon--ready.flame-icon--filled,
+.flame-icon--ready {
   color: $gold-bright;
 }
 
-@keyframes gem-flame-pulse {
+@keyframes flame-pulse {
   0%, 100% { filter: drop-shadow(0 0 3px rgba($gold, 0.45)); }
   50%      { filter: drop-shadow(0 0 7px rgba($gold, 0.8)); }
 }
 
 // Celebration — quick left-to-right pulse when every quest is done
-.gem-row--celebrate .gem-flame {
-  animation: gem-flame-celebrate 0.55s ease-out both;
+.flame-row--celebrate .flame-icon {
+  animation: flame-celebrate 0.55s ease-out both;
 
   &:nth-child(1) { animation-delay: 0s;    }
   &:nth-child(2) { animation-delay: 0.08s; }
@@ -240,7 +241,7 @@ $desktop:       800px;
   &:nth-child(5) { animation-delay: 0.32s; }
 }
 
-@keyframes gem-flame-celebrate {
+@keyframes flame-celebrate {
   0% {
     transform: scale(1);
   }
@@ -255,7 +256,7 @@ $desktop:       800px;
   }
 }
 
-@keyframes gem-flame-ready-pulse {
+@keyframes flame-ready-pulse {
   0%, 100% {
     filter: drop-shadow(0 0 5px rgba($gold-bright, 0.75));
     transform: scale(1);

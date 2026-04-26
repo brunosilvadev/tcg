@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { Card } from '../../models/card.model';
 import { CardComponent } from '../card/card';
@@ -18,9 +18,15 @@ const DRAG_THRESHOLD = 5;
   templateUrl: './card-lightbox.html',
   styleUrl: './card-lightbox.scss',
 })
-export class CardLightboxComponent {
+export class CardLightboxComponent implements OnChanges {
   @Input() card: Card | null = null;
   @Output() close = new EventEmitter<void>();
+
+  isFlipped = false;
+
+  ngOnChanges(): void {
+    this.isFlipped = false;
+  }
 
   // ── Drag state ────────────────────────────────────────────
   dragX = 0;
@@ -58,7 +64,6 @@ export class CardLightboxComponent {
 
   // ── Drag: start ───────────────────────────────────────────
   onPointerDown(event: PointerEvent): void {
-    event.preventDefault();
     this.isDragging = true;
     this.isReturning = false;
     this.hasDragged = false;
@@ -109,6 +114,8 @@ export class CardLightboxComponent {
         this.isReturning = false;
         this.returnTimer = null;
       }, 500);
+    } else {
+      this.isFlipped = !this.isFlipped;
     }
   }
 

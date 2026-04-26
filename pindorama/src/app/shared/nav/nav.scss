@@ -87,9 +87,9 @@ $desktop:    800px;
   }
 }
 
-// ── Mobile floating gem indicator (hidden on desktop) ─────────
+// ── Mobile floating flame indicator (hidden on desktop) ───────
 
-.gem-indicator {
+.flame-indicator {
   position: fixed;
   top: calc(0.6rem + env(safe-area-inset-top));
   right: 0.75rem;
@@ -123,7 +123,7 @@ $desktop:    800px;
 @media (min-width: $desktop) {
 
   .bottom-nav,
-  .gem-indicator { display: none; }
+  .flame-indicator { display: none; }
 
   .top-nav {
     display: flex;
@@ -156,7 +156,7 @@ $desktop:    800px;
 
     &__links { display: flex; gap: 2rem; align-items: center; }
 
-    &__gems {
+    &__flames {
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
@@ -169,14 +169,14 @@ $desktop:    800px;
       border-radius: 999px;
     }
 
-    &__gems-icon {
+    &__flames-icon {
       width: 0.85rem;
       height: 0.85rem;
       color: $gold;
       filter: drop-shadow(0 0 3px rgba($gold, 0.5));
     }
 
-    &__gems-count { font-weight: 600; }
+    &__flames-count { font-weight: 600; }
 
     &__item {
       font-size: 0.75rem;

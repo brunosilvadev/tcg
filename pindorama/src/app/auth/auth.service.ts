@@ -8,10 +8,8 @@ export interface AuthResponse {
   refreshToken: string;
   expiresAt: string;
   gems?: number;
-  gemsGoal?: number;
   gemAwarded?: boolean;
   packAwarded?: boolean;
-  boosterPacksAvailable?: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -55,6 +53,17 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getAccessToken();
+  }
+
+  getUsername(): string | null {
+    const token = this.getAccessToken();
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload['unique_name'] ?? null;
+    } catch {
+      return null;
+    }
   }
 
   private storeTokens(res: AuthResponse): void {

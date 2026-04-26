@@ -1,7 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { EMPTY, forkJoin, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { NavComponent } from '../../shared/nav/nav';
-import { CollectionService, CollectionDetail } from '../services/collection.service';
+import { CollectionService, CollectionDetail, CollectionProgress } from '../services/collection.service';
 
 export interface CollectionInfo {
   eyebrow:    string;
@@ -52,13 +54,17 @@ export class CollectionLandingComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.collectionService.getAll().subscribe(list => {
-      const match = list.find(c => c.slug === TUPINAMBA_SLUG);
-      if (!match) return;
-
-      this.collectionService.getById(match.id).subscribe(detail => {
-        this.collection.set(this.toCollectionInfo(detail));
-      });
+    this.collectionService.getAll().pipe(
+      switchMap(list => {
+        const match = list.find(c => c.slug === TUPINAMBA_SLUG);
+        if (!match) return EMPTY;
+        return forkJoin({
+          detail:   this.collectionService.getById(match.id),
+          progress: this.collectionService.getProgress(match.id).pipe(catchError(() => of(null))),
+        });
+      }),
+    ).subscribe(({ detail, progress }) => {
+      this.collection.set(this.toCollectionInfo(detail, progress));
     });
   }
 
@@ -67,12 +73,15 @@ export class CollectionLandingComponent implements OnInit {
     return c.totalCards === 0 ? 0 : (c.owned / c.totalCards) * 100;
   }
 
-  private toCollectionInfo(detail: CollectionDetail): CollectionInfo {
+  private toCollectionInfo(detail: CollectionDetail, progress: CollectionProgress | null): CollectionInfo {
+    const ownedByRarity = new Map(
+      (progress?.rarityBreakdown ?? []).map(r => [r.rarity.toLowerCase(), r.owned]),
+    );
+
     const rarities = detail.rarityBreakdown
-      .filter(r => r.rarity.toLowerCase() !== 'legendary') // UI shows 3 tiers
       .map(r => ({
         label: this.capitalize(r.rarity),
-        owned: 0,
+        owned: ownedByRarity.get(r.rarity.toLowerCase()) ?? 0,
         total: r.count,
         type:  r.rarity.toLowerCase(),
       }));
@@ -82,7 +91,7 @@ export class CollectionLandingComponent implements OnInit {
       name:       detail.name,
       subtitle:   detail.description ?? '',
       totalCards: detail.totalCards,
-      owned:      0,
+      owned:      progress?.owned ?? 0,
       rarities,
     };
   }

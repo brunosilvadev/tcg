@@ -26,6 +26,7 @@
   position: relative;
   cursor: grab;
   touch-action: none;
+  user-select: none;
 
   &--dragging  { cursor: grabbing; }
   &--returning { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }

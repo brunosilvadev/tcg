@@ -14,7 +14,7 @@ export class ProfileComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  readonly username = 'Adventurer';
+  readonly username = this.auth.getUsername() ?? 'Adventurer';
 
   currentPassword = '';
   newPassword = '';

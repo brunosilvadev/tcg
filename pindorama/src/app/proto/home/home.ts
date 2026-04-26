@@ -8,6 +8,7 @@ import { NavComponent } from '../../shared/nav/nav';
 import { CollectionService } from '../services/collection.service';
 import { BoosterPackService, LastPackBestCard } from '../services/booster-pack.service';
 import { GemsService } from '../services/gems.service';
+import { AuthService } from '../../auth/auth.service';
 
 interface HomeCollection {
   name: string;
@@ -45,11 +46,12 @@ const DEFAULT_BOOSTER: HomeBooster = {
 })
 export class HomeComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
   private readonly collectionService = inject(CollectionService);
   private readonly boosterService = inject(BoosterPackService);
   private readonly gemsService = inject(GemsService);
 
-  readonly username = 'Adventurer';
+  readonly username = this.auth.getUsername() ?? 'Adventurer';
 
   readonly collection = signal<HomeCollection>(DEFAULT_COLLECTION);
   readonly booster    = signal<HomeBooster>(DEFAULT_BOOSTER);
@@ -70,10 +72,10 @@ export class HomeComponent implements OnInit {
     });
   });
 
-  readonly gems     = computed(() => this.gemsService.status().gems);
-  readonly gemTotal = computed(() => this.gemsService.status().gemsGoal);
-  readonly gemSlots = computed(() =>
-    Array.from({ length: this.gemTotal() }, (_, i) => i),
+  readonly flames      = computed(() => this.gemsService.status().gems);
+  readonly flameTotal  = computed(() => this.gemsService.status().gemsGoal);
+  readonly flameSlots  = computed(() =>
+    Array.from({ length: this.flameTotal() }, (_, i) => i),
   );
 
   readonly tasks             = computed(() => this.gemsService.status().tasks);
@@ -93,7 +95,6 @@ export class HomeComponent implements OnInit {
 
       this.collectionService.getById(first.id).subscribe(detail => {
         const rarities = detail.rarityBreakdown
-          .filter(r => r.rarity.toLowerCase() !== 'legendary')
           .map(r => ({
             label:  this.capitalize(r.rarity),
             rarity: r.rarity.toLowerCase(),

@@ -29,6 +29,22 @@
         <p class="signup-form__error">{{ emailError }}</p>
       }
 
+      <!-- Username -->
+      <label class="signup-form__label" for="signup-username">Username</label>
+      <input
+        class="signup-form__input"
+        [class.signup-form__input--error]="usernameError"
+        id="signup-username"
+        type="text"
+        placeholder="e.g. hunter_42"
+        [(ngModel)]="username"
+        name="username"
+        autocomplete="username"
+        [disabled]="submitting()">
+      @if (usernameError) {
+        <p class="signup-form__error">{{ usernameError }}</p>
+      }
+
       <!-- Password -->
       <label class="signup-form__label" for="signup-password">Password</label>
       <input

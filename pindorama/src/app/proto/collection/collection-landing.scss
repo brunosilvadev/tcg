@@ -3,6 +3,7 @@ $text:   #f0ead8;
 $gold:   #c8b464;
 $green:  #1d9e75;
 $purple: #b06aff;
+$silver: #a8aab0;
 
 // ── Animations ────────────────────────────────────────────────────────────────
 
@@ -323,7 +324,19 @@ $purple: #b06aff;
     letter-spacing: 0.02em;
   }
 
+  &--common &__count {
+    color: $silver;
+  }
+
+  &--uncommon &__count {
+    color: $green;
+  }
+
   &--rare &__count {
+    color: $gold;
+  }
+
+  &--legendary &__count {
     color: $purple;
   }
 }

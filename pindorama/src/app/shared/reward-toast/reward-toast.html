@@ -5,9 +5,9 @@
     [attr.aria-label]="r.message"
     (click)="dismiss()">
     <span class="reward-toast__icon" aria-hidden="true">
-      @if (r.kind === 'gem') {
+      @if (r.kind === 'flame') {
         <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2 3 9l9 13 9-13-9-7zm0 2.5L18.5 9 12 17 5.5 9 12 4.5z"/>
+          <path d="M12 2 C 9 6, 6 9, 6 14 C 6 17.5, 8.5 20, 12 20 C 15.5 20, 18 17.5, 18 14 C 18 11, 16 9, 14 7 C 14 9, 13 10, 12 10 C 12 8, 13 5, 12 2 Z"/>
         </svg>
       } @else {
         <svg viewBox="0 0 24 24" fill="currentColor">

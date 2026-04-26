@@ -11,27 +11,34 @@ export interface GemsTasks {
   clickLink: boolean;
 }
 
+// Normalised internal shape used by the UI (nav + home).
 export interface GemsStatus {
   gems: number;
   gemsGoal: number;
   tasks: GemsTasks;
 }
 
+// Raw shape returned by GET /gems/status.
+interface GemsStatusResponse {
+  gems: number;
+  gemsForNextPack: number;
+  gemsNeeded: number;
+  dailyTasks: GemsTasks;
+}
+
 export interface GemTaskResult {
   wasNew: boolean;
   gems: number;
-  gemsGoal: number;
   packAwarded: boolean;
 }
 
 export interface LoginGemResult {
   gemAwarded?: boolean;
   gems?: number;
-  gemsGoal?: number;
   packAwarded?: boolean;
 }
 
-export type RewardKind = 'gem' | 'pack';
+export type RewardKind = 'flame' | 'pack';
 export interface RewardNotice {
   id: number;
   kind: RewardKind;
@@ -62,8 +69,12 @@ export class GemsService {
       this.status.set(DEFAULT_STATUS);
       return;
     }
-    this.http.get<GemsStatus>(`${this.base}/status`).subscribe({
-      next: s => this.status.set(s),
+    this.http.get<GemsStatusResponse>(`${this.base}/status`).subscribe({
+      next: s => this.status.set({
+        gems: s.gems,
+        gemsGoal: s.gemsForNextPack,
+        tasks: s.dailyTasks,
+      }),
       error: () => this.status.set(DEFAULT_STATUS),
     });
   }
@@ -81,11 +92,10 @@ export class GemsService {
       this.status.update(s => ({
         ...s,
         gems: res.gems!,
-        gemsGoal: res.gemsGoal ?? s.gemsGoal,
         tasks: { ...s.tasks, login: true },
       }));
     }
-    if (res.gemAwarded) this.pushReward('gem', '+1 gem for logging in today');
+    if (res.gemAwarded) this.pushReward('flame', '+1 flame for logging in today');
     if (res.packAwarded) {
       this.packs.refreshStatus();
       this.pushReward('pack', 'Booster pack awarded!');
@@ -111,17 +121,20 @@ export class GemsService {
   private applyTaskResult(kind: 'view-card' | 'click-link', res: GemTaskResult): void {
     this.status.update(s => ({
       gems: res.gems,
-      gemsGoal: res.gemsGoal,
+      gemsGoal: s.gemsGoal,
       tasks: {
         ...s.tasks,
         viewCard: kind === 'view-card' ? true : s.tasks.viewCard,
         clickLink: kind === 'click-link' ? true : s.tasks.clickLink,
       },
     }));
+    // If packAwarded just fired the balance resets to 0, so re-sync from /status
+    // to pick up the new gemsForNextPack and cleared daily tasks if any.
+    if (res.packAwarded) this.refreshStatus();
     if (!res.wasNew) return;
 
     const label = kind === 'view-card' ? 'viewing a card' : 'exploring the link';
-    this.pushReward('gem', `+1 gem for ${label}`);
+    this.pushReward('flame', `+1 flame for ${label}`);
     if (res.packAwarded) {
       this.packs.refreshStatus();
       this.pushReward('pack', 'Booster pack awarded!');
@@ -131,7 +144,7 @@ export class GemsService {
   private pushReward(kind: RewardKind, message: string): void {
     // Simple queue: pack rewards replace gem rewards (pack is the bigger event).
     const current = this.reward();
-    if (current && current.kind === 'pack' && kind === 'gem') return;
+    if (current && current.kind === 'pack' && kind === 'flame') return;
 
     if (this.clearTimer) clearTimeout(this.clearTimer);
     this.reward.set({ id: this.nextRewardId++, kind, message });

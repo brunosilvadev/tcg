@@ -13,8 +13,8 @@ export class NavComponent implements OnInit {
   readonly packService = inject(PackService);
   readonly gemsService = inject(GemsService);
 
-  readonly gems     = computed(() => this.gemsService.status().gems);
-  readonly gemsGoal = computed(() => this.gemsService.status().gemsGoal);
+  readonly flames      = computed(() => this.gemsService.status().gems);
+  readonly flamesGoal  = computed(() => this.gemsService.status().gemsGoal);
 
   ngOnInit(): void {
     this.packService.refreshStatus();

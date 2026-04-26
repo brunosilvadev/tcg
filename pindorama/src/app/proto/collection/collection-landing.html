@@ -77,7 +77,11 @@
     <!-- Rarity breakdown -->
     <div class="rarity-row">
       @for (r of collection().rarities; track r.type) {
-        <div class="rarity-chip" [class.rarity-chip--rare]="r.type === 'rare'">
+        <div class="rarity-chip"
+          [class.rarity-chip--common]="r.type === 'common'"
+          [class.rarity-chip--uncommon]="r.type === 'uncommon'"
+          [class.rarity-chip--rare]="r.type === 'rare'"
+          [class.rarity-chip--legendary]="r.type === 'legendary'">
           <p class="rarity-chip__label">{{ r.label }}</p>
           <p class="rarity-chip__count">{{ r.owned }}/{{ r.total }}</p>
         </div>

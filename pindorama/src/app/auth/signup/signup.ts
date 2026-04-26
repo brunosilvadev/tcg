@@ -17,12 +17,21 @@ export class SignupComponent {
   private readonly router = inject(Router);
 
   email = '';
+  username = '';
   password = '';
   confirmPassword = '';
 
   readonly submitted = signal(false);
   readonly submitting = signal(false);
   readonly serverError = signal('');
+
+  get usernameError(): string {
+    if (!this.submitted()) return '';
+    if (!this.username.trim()) return 'Username is required.';
+    if (this.username.trim().length < 3) return 'Username must be at least 3 characters.';
+    if (!/^[a-zA-Z0-9_]+$/.test(this.username.trim())) return 'Only letters, numbers, and underscores.';
+    return '';
+  }
 
   get emailError(): string {
     if (!this.submitted()) return '';
@@ -51,14 +60,11 @@ export class SignupComponent {
     this.submitted.set(true);
     this.serverError.set('');
 
-    if (this.emailError || this.passwordError || this.confirmError) return;
+    if (this.usernameError || this.emailError || this.passwordError || this.confirmError) return;
 
     this.submitting.set(true);
 
-    const email = this.email.trim();
-    const username = email.split('@')[0];
-
-    this.auth.signup(email, username, this.password).subscribe({
+    this.auth.signup(this.email.trim(), this.username.trim(), this.password).subscribe({
       next: res => {
         this.gems.applyLoginResult(res);
         this.router.navigateByUrl('/proto/home');
