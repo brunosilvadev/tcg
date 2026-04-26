@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { WaitlistService } from '../waitlist';
 import { ArakuPytxaComponent } from '../araku-pytxa.component';
 import { FooterComponent } from '../shared/footer/footer';
+import { NotificationService } from '../shared/notification.service';
 
 interface Particle {
   x: number;
@@ -31,7 +32,7 @@ export class LandingComponent {
     duration: `${(6 + Math.random() * 8).toFixed(1)}s`,
   }));
 
-  constructor(private waitlist: WaitlistService) {}
+  constructor(private waitlist: WaitlistService, private notify: NotificationService) {}
 
   private isValidEmail(value: string): boolean {
     if (!value || value.length > 254) return false;
@@ -58,10 +59,12 @@ export class LandingComponent {
         this.notified = true;
         this.email = '';
         this.submitting = false;
+        this.notify.show('success', 'You\'re on the list! We\'ll be in touch.');
       },
       error: () => {
         this.error = 'Something went wrong. Please try again.';
         this.submitting = false;
+        this.notify.show('error', 'Something went wrong. Please try again.');
       }
     });
   }

@@ -283,6 +283,16 @@ $desktop:       800px;
   50%      { opacity: 1; }
 }
 
+.all-quests-done {
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: $jade;
+  opacity: 0.8;
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
 // ── Booster card — ready state glow ───────────────────────────
 
 .home-card--booster-ready {
