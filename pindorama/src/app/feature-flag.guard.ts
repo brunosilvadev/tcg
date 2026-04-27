@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn, CanMatchFn, Router } from '@angular/router';
 import { LdService } from './ld.service';
 
 export const firstReleaseGuard: CanActivateFn = () => {
@@ -7,3 +7,5 @@ export const firstReleaseGuard: CanActivateFn = () => {
   const router = inject(Router);
   return ld.firstRelease() ? true : router.parseUrl('/');
 };
+
+export const firstReleaseMatch: CanMatchFn = () => inject(LdService).firstRelease();
