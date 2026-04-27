@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterLink, provideRouter } from '@angular/router';
+import { Router, RouterLink, provideRouter } from '@angular/router';
 
 import { LandingComponent } from './landing';
 
 describe('GameLandingComponent', () => {
   let fixture: ComponentFixture<LandingComponent>;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -14,6 +15,7 @@ describe('GameLandingComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(LandingComponent);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -23,7 +25,7 @@ describe('GameLandingComponent', () => {
       .find(link => link.nativeElement.textContent.trim() === 'Sign Up');
 
     expect(signUpLink).toBeDefined();
-    expect(signUpLink?.injector.get(RouterLink).routerLink).toBe('/signup');
+    expect(router.serializeUrl(signUpLink!.injector.get(RouterLink).urlTree!)).toBe('/signup');
   });
 
   it('routes the login links to the login page', () => {
@@ -32,6 +34,6 @@ describe('GameLandingComponent', () => {
       .filter(link => link.nativeElement.textContent.trim() === 'Log In');
 
     expect(loginLinks).toHaveLength(2);
-    expect(loginLinks.every(link => link.injector.get(RouterLink).routerLink === '/login')).toBe(true);
+    expect(loginLinks.every(link => router.serializeUrl(link.injector.get(RouterLink).urlTree!) === '/login')).toBe(true);
   });
 });

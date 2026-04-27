@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, provideRouter } from '@angular/router';
+import { Router, UrlTree, provideRouter } from '@angular/router';
 import { vi } from 'vitest';
 
 import { authGuard } from './auth.guard';
@@ -35,6 +35,7 @@ describe('authGuard', () => {
 
     const result = TestBed.runInInjectionContext(() => authGuard(null as never, null as never));
 
-    expect(router.serializeUrl(result)).toBe('/login');
+    expect(result instanceof UrlTree).toBe(true);
+    expect(router.serializeUrl(result as UrlTree)).toBe('/login');
   });
 });
