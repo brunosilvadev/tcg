@@ -67,7 +67,7 @@ export class SignupComponent {
     this.auth.signup(this.email.trim(), this.username.trim(), this.password).subscribe({
       next: res => {
         this.gems.applyLoginResult(res);
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/pack-opening');
       },
       error: () => {
         this.serverError.set('Something went wrong. Please try again.');
