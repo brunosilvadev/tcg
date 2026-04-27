@@ -1,4 +1,5 @@
 import { routes } from './app.routes';
+import { authGuard } from './auth/auth.guard';
 import { firstReleaseGuard } from './feature-flag.guard';
 
 describe('routes', () => {
@@ -9,10 +10,17 @@ describe('routes', () => {
     expect(route?.canActivate).toBeUndefined();
   });
 
-  it('keeps other gated routes behind the first-release guard', () => {
+  it('keeps auth pages behind the first-release guard only', () => {
     const route = routes.find(candidate => candidate.path === 'signup');
 
     expect(route).toBeDefined();
     expect(route?.canActivate).toEqual([firstReleaseGuard]);
+  });
+
+  it('protects in-app routes with the first-release and auth guards', () => {
+    const route = routes.find(candidate => candidate.path === 'home');
+
+    expect(route).toBeDefined();
+    expect(route?.canActivate).toEqual([firstReleaseGuard, authGuard]);
   });
 });
