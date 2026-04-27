@@ -2,7 +2,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { EMPTY, forkJoin, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, filter, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { NavComponent } from '../shared/nav/nav';
 import { CollectionService, CollectionDetail, CollectionProgress } from '../services/collection.service';
@@ -60,10 +60,14 @@ export class CollectionLandingComponent implements OnInit {
 
   constructor() {
     this.router.events
-      .pipe(takeUntilDestroyed())
-      .subscribe(event => {
-        if (event instanceof NavigationEnd) {
-          this.isLoggedIn.set(this.auth.isLoggedIn());
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        const loggedIn = this.auth.isLoggedIn();
+        if (loggedIn !== this.isLoggedIn()) {
+          this.isLoggedIn.set(loggedIn);
         }
       });
   }
