@@ -60,37 +60,39 @@
   <!-- ── Divider ───────────────────────────────────────────────── -->
   <div class="collection-divider"></div>
 
-  <!-- ── Zone 2: Below the fold ───────────────────────────────── -->
-  <section class="collection-body">
+  @if (isLoggedIn) {
+    <!-- ── Zone 2: Below the fold ─────────────────────────────── -->
+    <section class="collection-body">
 
-    <!-- Collection progress -->
-    <div class="coll-progress">
-      <div class="coll-progress__header">
-        <span class="coll-progress__label">Your collection</span>
-        <span class="coll-progress__fraction">{{ collection().owned }} / {{ collection().totalCards }}</span>
-      </div>
-      <div class="coll-progress__track">
-        <div class="coll-progress__fill" [style.width.%]="progress"></div>
-      </div>
-    </div>
-
-    <!-- Rarity breakdown -->
-    <div class="rarity-row">
-      @for (r of collection().rarities; track r.type) {
-        <div class="rarity-chip"
-          [class.rarity-chip--common]="r.type === 'common'"
-          [class.rarity-chip--uncommon]="r.type === 'uncommon'"
-          [class.rarity-chip--rare]="r.type === 'rare'"
-          [class.rarity-chip--legendary]="r.type === 'legendary'">
-          <p class="rarity-chip__label">{{ r.label }}</p>
-          <p class="rarity-chip__count">{{ r.owned }}/{{ r.total }}</p>
+      <!-- Collection progress -->
+      <div class="coll-progress">
+        <div class="coll-progress__header">
+          <span class="coll-progress__label">Your collection</span>
+          <span class="coll-progress__fraction">{{ collection().owned }} / {{ collection().totalCards }}</span>
         </div>
-      }
-    </div>
+        <div class="coll-progress__track">
+          <div class="coll-progress__fill" [style.width.%]="progress"></div>
+        </div>
+      </div>
 
-    <!-- CTA -->
-    <a class="cta-btn" routerLink="cards">Browse collection →</a>
+      <!-- Rarity breakdown -->
+      <div class="rarity-row">
+        @for (r of collection().rarities; track r.type) {
+          <div class="rarity-chip"
+            [class.rarity-chip--common]="r.type === 'common'"
+            [class.rarity-chip--uncommon]="r.type === 'uncommon'"
+            [class.rarity-chip--rare]="r.type === 'rare'"
+            [class.rarity-chip--legendary]="r.type === 'legendary'">
+            <p class="rarity-chip__label">{{ r.label }}</p>
+            <p class="rarity-chip__count">{{ r.owned }}/{{ r.total }}</p>
+          </div>
+        }
+      </div>
 
-  </section>
+      <!-- CTA -->
+      <a class="cta-btn" routerLink="cards">Browse collection →</a>
+
+    </section>
+  }
 
 </div>

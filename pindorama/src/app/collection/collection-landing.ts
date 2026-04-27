@@ -2,6 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EMPTY, forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 import { NavComponent } from '../shared/nav/nav';
 import { CollectionService, CollectionDetail, CollectionProgress } from '../services/collection.service';
 
@@ -38,6 +39,7 @@ const TUPINAMBA_FALLBACK: CollectionInfo = {
   styleUrl:    './collection-landing.scss',
 })
 export class CollectionLandingComponent implements OnInit {
+  private readonly auth = inject(AuthService);
   private readonly collectionService = inject(CollectionService);
 
   readonly collection = signal<CollectionInfo>(TUPINAMBA_FALLBACK);
@@ -60,12 +62,18 @@ export class CollectionLandingComponent implements OnInit {
         if (!match) return EMPTY;
         return forkJoin({
           detail:   this.collectionService.getById(match.id),
-          progress: this.collectionService.getProgress(match.id).pipe(catchError(() => of(null))),
+          progress: this.auth.isLoggedIn()
+            ? this.collectionService.getProgress(match.id).pipe(catchError(() => of(null)))
+            : of(null),
         });
       }),
     ).subscribe(({ detail, progress }) => {
       this.collection.set(this.toCollectionInfo(detail, progress));
     });
+  }
+
+  get isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
   }
 
   get progress(): number {
