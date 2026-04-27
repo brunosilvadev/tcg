@@ -12,6 +12,6 @@ export const routes: Routes = [
   { path: 'pack-opening',           loadComponent: () => import('./pack-opening/pack-opening').then(m => m.PackOpeningComponent),                canActivate: [firstReleaseGuard] },
   { path: 'collection/tupinamba',   loadComponent: () => import('./collection/collection-landing').then(m => m.CollectionLandingComponent),      canActivate: [firstReleaseGuard] },
   { path: 'profile',                loadComponent: () => import('./profile/profile').then(m => m.ProfileComponent),                             canActivate: [firstReleaseGuard] },
-  { path: 'commitment',             loadComponent: () => import('./commitment/commitment').then(m => m.CommitmentComponent),                     canActivate: [firstReleaseGuard] },
+  { path: 'commitment',             loadComponent: () => import('./commitment/commitment').then(m => m.CommitmentComponent) },
   { path: '**', redirectTo: '' }
 ];
