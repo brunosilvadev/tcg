@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavComponent } from '../../shared/nav/nav';
-import { AuthService } from '../../auth/auth.service';
+import { NavComponent } from '../shared/nav/nav';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-profile',

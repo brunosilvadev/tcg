@@ -4,11 +4,11 @@ import { Router, RouterLink } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Card, mapApiCard } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
-import { NavComponent } from '../../shared/nav/nav';
+import { NavComponent } from '../shared/nav/nav';
 import { CollectionService } from '../services/collection.service';
 import { BoosterPackService, LastPackBestCard } from '../services/booster-pack.service';
 import { GemsService } from '../services/gems.service';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 interface HomeCollection {
   name: string;
@@ -153,12 +153,12 @@ export class HomeComponent implements OnInit {
 
   onBoosterCardClick(): void {
     if (this.booster().hasPackAvailable) {
-      this.router.navigateByUrl('/proto/pack-opening');
+      this.router.navigateByUrl('/pack-opening');
     }
   }
 
   onViewCardQuest(): void {
-    this.router.navigateByUrl('/proto/cards');
+    this.router.navigateByUrl('/cards');
   }
 
   onFactQuest(): void {

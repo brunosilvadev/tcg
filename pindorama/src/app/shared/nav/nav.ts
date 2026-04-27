@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { PackService } from '../../proto/services/pack.service';
-import { GemsService } from '../../proto/services/gems.service';
+import { PackService } from '../../services/pack.service';
+import { GemsService } from '../../services/gems.service';
 
 @Component({
   selector: 'app-nav',

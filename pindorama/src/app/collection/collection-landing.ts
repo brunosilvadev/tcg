@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EMPTY, forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { NavComponent } from '../../shared/nav/nav';
+import { NavComponent } from '../shared/nav/nav';
 import { CollectionService, CollectionDetail, CollectionProgress } from '../services/collection.service';
 
 export interface CollectionInfo {

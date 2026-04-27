@@ -3,7 +3,7 @@ import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Card } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
-import { ArakuPytxaComponent } from '../../araku-pytxa.component';
+import { ArakuPytxaComponent } from '../araku-pytxa.component';
 
 interface Particle {
   x: number;

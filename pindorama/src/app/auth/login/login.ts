@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { GemsService } from '../../proto/services/gems.service';
+import { GemsService } from '../../services/gems.service';
 import { ArakuPytxaComponent } from '../../araku-pytxa.component';
 
 @Component({
@@ -49,7 +49,7 @@ export class LoginComponent {
     this.auth.login(this.email.trim(), this.password).subscribe({
       next: res => {
         this.gems.applyLoginResult(res);
-        this.router.navigateByUrl('/proto/home');
+        this.router.navigateByUrl('/home');
       },
       error: () => {
         this.serverError.set('Invalid email or password.');

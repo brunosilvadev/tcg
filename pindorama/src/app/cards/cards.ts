@@ -5,8 +5,8 @@ import { CardService } from '../services/card.service';
 import { GemsService } from '../services/gems.service';
 import { CardComponent } from './card/card';
 import { CardLightboxComponent } from './card-lightbox/card-lightbox';
-import { FooterComponent } from '../../shared/footer/footer';
-import { NavComponent } from '../../shared/nav/nav';
+import { FooterComponent } from '../shared/footer/footer';
+import { NavComponent } from '../shared/nav/nav';
 
 @Component({
   selector: 'app-cards',

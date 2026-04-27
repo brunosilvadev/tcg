@@ -3,20 +3,20 @@
   <div class="top-nav__inner">
     <span class="top-nav__brand">Pindorama</span>
     <div class="top-nav__links">
-      <a class="top-nav__item" routerLink="/proto/home"
+      <a class="top-nav__item" routerLink="/home"
         routerLinkActive="top-nav__item--active"
         [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a class="top-nav__item" routerLink="/proto/cards"
+      <a class="top-nav__item" routerLink="/cards"
         routerLinkActive="top-nav__item--active">My Collection</a>
-      <a class="top-nav__item" routerLink="/proto/collection/tupinamba"
+      <a class="top-nav__item" routerLink="/collection/tupinamba"
         routerLinkActive="top-nav__item--active">Nations</a>
       <a class="top-nav__item top-nav__item--open-pack"
         [class.top-nav__item--pack-ready]="packService.hasAvailablePack()"
         [class.top-nav__item--pack-spent]="!packService.hasAvailablePack()"
-        [routerLink]="packService.hasAvailablePack() ? '/proto/pack-opening' : null"
+        [routerLink]="packService.hasAvailablePack() ? '/pack-opening' : null"
         routerLinkActive="top-nav__item--active"
         [attr.aria-disabled]="!packService.hasAvailablePack()">Open Pack</a>
-      <a class="top-nav__item" routerLink="/proto/profile"
+      <a class="top-nav__item" routerLink="/profile"
         routerLinkActive="top-nav__item--active">Profile</a>
       <span class="top-nav__flames" aria-label="Daily flames progress">
         <svg class="top-nav__flames-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -31,7 +31,7 @@
 <!-- ── Bottom navigation (mobile) ────────────────────────────── -->
 <nav class="bottom-nav" aria-label="Main navigation">
 
-  <a class="bottom-nav__item" routerLink="/proto/home"
+  <a class="bottom-nav__item" routerLink="/home"
     routerLinkActive="bottom-nav__item--active"
     [routerLinkActiveOptions]="{ exact: true }">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -40,7 +40,7 @@
     <span class="bottom-nav__label">Home</span>
   </a>
 
-  <a class="bottom-nav__item" routerLink="/proto/cards"
+  <a class="bottom-nav__item" routerLink="/cards"
     routerLinkActive="bottom-nav__item--active">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0
@@ -50,7 +50,7 @@
     <span class="bottom-nav__label">My Collection</span>
   </a>
 
-  <a class="bottom-nav__item" routerLink="/proto/collection/tupinamba"
+  <a class="bottom-nav__item" routerLink="/collection/tupinamba"
     routerLinkActive="bottom-nav__item--active">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12
@@ -65,7 +65,7 @@
   <a class="bottom-nav__item bottom-nav__item--open-pack"
     [class.bottom-nav__item--pack-ready]="packService.hasAvailablePack()"
     [class.bottom-nav__item--pack-spent]="!packService.hasAvailablePack()"
-    [routerLink]="packService.hasAvailablePack() ? '/proto/pack-opening' : null"
+    [routerLink]="packService.hasAvailablePack() ? '/pack-opening' : null"
     routerLinkActive="bottom-nav__item--active"
     [attr.aria-disabled]="!packService.hasAvailablePack()">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -75,7 +75,7 @@
     <span class="bottom-nav__label">Open Pack</span>
   </a>
 
-  <a class="bottom-nav__item" routerLink="/proto/profile"
+  <a class="bottom-nav__item" routerLink="/profile"
     routerLinkActive="bottom-nav__item--active">
     <svg class="bottom-nav__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0

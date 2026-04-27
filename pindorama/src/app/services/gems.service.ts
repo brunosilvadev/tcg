@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../auth/auth.service';
 import { PackService } from './pack.service';
 
 export interface GemsTasks {

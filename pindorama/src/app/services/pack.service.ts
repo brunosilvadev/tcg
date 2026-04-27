@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { AuthService } from '../../auth/auth.service';
+import { environment } from '../../environments/environment';
+import { AuthService } from '../auth/auth.service';
 import { ApiCard, Card, mapApiCard } from '../models/card.model';
 
 export interface PackOpeningResult {

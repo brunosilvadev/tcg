@@ -21,7 +21,7 @@ import { Card } from '../models/card.model';
 import { CardComponent } from '../cards/card/card';
 import { CardLightboxComponent } from '../cards/card-lightbox/card-lightbox';
 import { PackService } from '../services/pack.service';
-import { NavComponent } from '../../shared/nav/nav';
+import { NavComponent } from '../shared/nav/nav';
 
 type Phase = 'sealed' | 'tearing' | 'shaking' | 'torn' | 'erupting' | 'revealing' | 'done';
 
@@ -335,7 +335,7 @@ export class PackOpeningComponent implements OnDestroy {
     this.flyingAway.set(true);
     this.showDone.set(false);
     this.defer(() => {
-      this.router.navigate(['/proto/cards']);
+      this.router.navigate(['/cards']);
     }, 800);
   }
 

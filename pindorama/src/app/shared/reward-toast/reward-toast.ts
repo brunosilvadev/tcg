@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { GemsService } from '../../proto/services/gems.service';
+import { GemsService } from '../../services/gems.service';
 
 @Component({
   selector: 'app-reward-toast',
