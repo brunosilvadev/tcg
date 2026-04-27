@@ -43,6 +43,7 @@ export class CollectionLandingComponent implements OnInit {
   private readonly collectionService = inject(CollectionService);
 
   readonly collection = signal<CollectionInfo>(TUPINAMBA_FALLBACK);
+  readonly isLoggedIn = this.auth.isLoggedIn();
 
   readonly particles = [
     { left: '8%',  delay: '0s',   dur: '10s', isGold: true  },
@@ -70,10 +71,6 @@ export class CollectionLandingComponent implements OnInit {
     ).subscribe(({ detail, progress }) => {
       this.collection.set(this.toCollectionInfo(detail, progress));
     });
-  }
-
-  get isLoggedIn(): boolean {
-    return this.auth.isLoggedIn();
   }
 
   get progress(): number {
