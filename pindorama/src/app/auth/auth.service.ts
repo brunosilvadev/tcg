@@ -32,6 +32,10 @@ export class AuthService {
       .pipe(tap(res => this.storeTokens(res)));
   }
 
+  changePassword(currentPassword: string, newPassword: string): Observable<void> {
+    return this.http.put<void>(`${this.base}/change-password`, { currentPassword, newPassword });
+  }
+
   refresh(): Observable<AuthResponse> {
     const refreshToken = this.getRefreshToken();
     return this.http

@@ -34,12 +34,21 @@ export class ProfileComponent {
       this.passwordStatus.set('error');
       return;
     }
-    // TODO: wire to auth service
-    this.passwordStatus.set('success');
-    this.passwordError.set('');
-    this.currentPassword = '';
-    this.newPassword = '';
-    this.confirmPassword = '';
+
+    this.auth.changePassword(this.currentPassword, this.newPassword).subscribe({
+      next: () => {
+        this.passwordStatus.set('success');
+        this.passwordError.set('');
+        this.currentPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
+      },
+      error: err => {
+        const message = err.error?.message ?? 'Something went wrong. Please try again.';
+        this.passwordError.set(message);
+        this.passwordStatus.set('error');
+      },
+    });
   }
 
   logout(): void {
