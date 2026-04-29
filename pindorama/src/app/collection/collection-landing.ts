@@ -1,7 +1,9 @@
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { EMPTY, forkJoin, of } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, filter, switchMap } from 'rxjs/operators';
+import { AuthService } from '../auth/auth.service';
 import { NavComponent } from '../shared/nav/nav';
 import { CollectionService, CollectionDetail, CollectionProgress } from '../services/collection.service';
 
@@ -38,9 +40,12 @@ const TUPINAMBA_FALLBACK: CollectionInfo = {
   styleUrl:    './collection-landing.scss',
 })
 export class CollectionLandingComponent implements OnInit {
+  private readonly auth = inject(AuthService);
   private readonly collectionService = inject(CollectionService);
+  private readonly router = inject(Router);
 
   readonly collection = signal<CollectionInfo>(TUPINAMBA_FALLBACK);
+  readonly isLoggedIn = signal(this.auth.isLoggedIn());
 
   readonly particles = [
     { left: '8%',  delay: '0s',   dur: '10s', isGold: true  },
@@ -53,6 +58,20 @@ export class CollectionLandingComponent implements OnInit {
     { left: '92%', delay: '4.3s', dur: '9s',  isGold: false },
   ];
 
+  constructor() {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        const loggedIn = this.auth.isLoggedIn();
+        if (loggedIn !== this.isLoggedIn()) {
+          this.isLoggedIn.set(loggedIn);
+        }
+      });
+  }
+
   ngOnInit(): void {
     this.collectionService.getAll().pipe(
       switchMap(list => {
@@ -60,7 +79,9 @@ export class CollectionLandingComponent implements OnInit {
         if (!match) return EMPTY;
         return forkJoin({
           detail:   this.collectionService.getById(match.id),
-          progress: this.collectionService.getProgress(match.id).pipe(catchError(() => of(null))),
+          progress: this.isLoggedIn()
+            ? this.collectionService.getProgress(match.id).pipe(catchError(() => of(null)))
+            : of(null),
         });
       }),
     ).subscribe(({ detail, progress }) => {
